@@ -1,0 +1,24 @@
+<ion-header>
+
+  <ion-navbar class="logo my-ion-navbar">
+    <img class="image-logo" src="assets/icon/lightbulb.svg">
+    <div class="text-logo">Getting</div>
+    <div class="text-logo">Startup</div>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <div class="main-title">Inicia Sesión con tu Email</div>
+    <form #loginForm="ngForm" (ngSubmit)="login(user)" class="my-form">
+      <ion-item>
+        <ion-input type="email" placeholder="Correo Electrónico" [(ngModel)]="user.email" name="uemail" required></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-input type="password" placeholder="Contraseña" [(ngModel)]="user.password" name="upass" required></ion-input>
+        </ion-item>
+      <button class="login-button" ion-button block style="text-transform: none;" type="submit" [disabled]="!loginForm.valid">Iniciar Sesión</button>
+      <button class="login-button" ion-button block style="text-transform: none;" (click)="register()">Registrarse</button>
+    </form>
+</ion-content>
