@@ -6,10 +6,9 @@ page-login {
     .ion-at{
         color: white;
     }
-}
-
-.my-ion-navbar{
-    height: 45vh;
+    ion-navbar.toolbar{
+        height: 45vh;
+    }
 }
 
 .toolbar-background{
@@ -49,4 +48,10 @@ page-login {
 .login-button{
     margin-top: 3vh;
     background-color: #08586f;
+}
+
+.logo-container{
+    background-color: #08586f;
+    height: 45vh;
+    padding:  8vh 0;
 }

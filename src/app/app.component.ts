@@ -15,6 +15,7 @@ export class MyApp {
   rootPage;
   gotoHome = false;
 
+
   constructor(private afAuth: AngularFireAuth, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
         this.afAuth.user.subscribe(res =>{
