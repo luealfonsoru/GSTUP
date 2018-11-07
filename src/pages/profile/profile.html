@@ -9,21 +9,34 @@
   
   <ion-content class="main-background">
     <ion-card *ngIf="about" style="height: 25vh; width:100vw;padding: 0px;margin: 0px; background-color: #000000;margin-right:1px">
-      <img src="assets/img/1.jpg">
+      <img src="https://firebasestorage.googleapis.com/v0/b/gettingstartup.appspot.com/o/3H5LKp1PwJRkcSmZMhkemvybLC42%2Fprofile.jpg?alt=media&token=0c631e8c-4aa6-4a95-a1c2-6c98ff775fe4">
       <div class="card-title" *ngIf="name">{{name}}</div>
       <div class="card-subtitle" *ngIf="nickname">@{{nickname}}</div>
     </ion-card>
   
-    <ion-row *ngIf="interest" style="padding-bottom: 0px">
-    <ion-card style="height: 8vh; width:25vw; background-color: #0c80a0;">
+    <ion-row *ngIf="interest" style="padding-bottom: 0px; margin-bottom: -20px;">
+    <ion-card style="height: 9vh; width:25vw; background-color: #0c80a0; margin-right: 1px;">
       <div class="card-section">Intereses</div>
     </ion-card> 
-        <ion-card *ngFor="let inter of interest" style="height: 8vh; width:8vh; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" >
-            <ion-icon name="color-palette" class="white-icon"></ion-icon>
-            <div class="card-subsection">{{inter}}</div>
+        <ion-card *ngFor="let inter of interest" style="height: 9vh; width:9vh; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" >
+            <ion-icon [name]="inter.icon" class="white-icon"></ion-icon>
+            <div class="card-subsection">{{inter.name}}</div>
           </ion-card>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="interest" style="margin-bottom:-15px;">
+        <ion-card style="height: 9vh; width:38vw; background-color: #0c80a0; margin-right: 1px;">
+          <div class="card-section">Reconocimientos</div>
+        </ion-card> 
+        <ion-card *ngIf="!awards" style="height: 9vh; width:38vw; background-color: #0c80a0; margin-right: 1px; margin-top:12px;margin-left:1px">
+          <div class="card-error">No hay reconocimientos para mostrar</div>
+        </ion-card>
+            <ion-card *ngFor="let award of awards" style="height: 9vh; width:9vh; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" >
+                <ion-icon name="ribbon" class="white-icon"></ion-icon>
+                <div class="card-subsection">{{award}}</div>
+              </ion-card>
+
+        </ion-row>
+    <ion-row>    
       <ion-card *ngIf="about" style="background-color: #0c80a0;">
         <ion-card-content style="padding:3%">
           <div class="about-title">Acerca de mi</div>

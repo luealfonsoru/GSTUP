@@ -18,6 +18,8 @@ import { ProfilePage } from '../pages/profile/profile';
 import { ExplorePage } from '../pages/explore/explore';
 import { MessagesPage } from '../pages/messages/messages';
 import { ProjectsPage } from '../pages/projects/projects';
+import { ChatPage } from '../pages/chat/chat';
+import { FriendPage } from '../pages/friend/friend';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { ProjectsPage } from '../pages/projects/projects';
     ProfilePage,
     ExplorePage,
     MessagesPage,
-    ProjectsPage
+    ProjectsPage,
+    ChatPage,
+    FriendPage
   ],
   imports: [
     BrowserModule,
@@ -46,7 +50,9 @@ import { ProjectsPage } from '../pages/projects/projects';
     ProfilePage,
     ExplorePage,
     MessagesPage,
-    ProjectsPage
+    ProjectsPage,
+    ChatPage,
+    FriendPage
   ],
   providers: [
     StatusBar,

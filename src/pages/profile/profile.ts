@@ -5,6 +5,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs-compat';
 import 'rxjs/add/operator/take';
 
+
 /**
  * Generated class for the ProfilePage page.
  *
@@ -22,6 +23,8 @@ export class ProfilePage {
   nickname;
   interest;
   about;
+  awards;
+  icon = "add";
   constructor(public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
   }
   loading = this.loadingCtrl.create()
@@ -35,6 +38,11 @@ export class ProfilePage {
           this.nickname = datas.filter(res => res.key === "username")[0].payload.val();
           this.interest = datas.filter(res => res.key === "interest")[0].payload.val();
           this.about = datas.filter(res => res.key === "about")[0].payload.val();
+          try{
+            this.awards = datas.filter(res => res.key == "awards")[0].payload.val();
+          }catch{
+            this.awards = null;
+          }
         })
       }else{
         this.navCtrl.setRoot("HomePage");
