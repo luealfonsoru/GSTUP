@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireStorage } from 'angularfire2/storage'
 import { Observable } from 'rxjs-compat';
 import 'rxjs/add/operator/take';
 
@@ -13,7 +14,8 @@ import 'rxjs/add/operator/take';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+@IonicPage({
+  segment: 'profile/:pid'})
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',
@@ -25,7 +27,9 @@ export class ProfilePage {
   about;
   awards;
   icon = "add";
-  constructor(public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
+  imageUrl;
+  currentId = this.navParams.get('pid');
+  constructor(public afStorage: AngularFireStorage, public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
   }
   loading = this.loadingCtrl.create()
   ionViewDidLoad() {
@@ -33,7 +37,16 @@ export class ProfilePage {
     this.afAuth.authState.take(1).subscribe(res =>{
       console.log(res);
       if(res && res.email && res.uid){
-        this.afDatabase.list(`profile/${res.uid}`).snapshotChanges().subscribe( datas => {
+        if(!this.currentId){
+          this.currentId = res.uid
+        }
+        this.afStorage.ref(this.currentId + "/profile.jpg").getDownloadURL().subscribe(res =>{
+          this.imageUrl = res;
+        }, (e) =>{
+          this.imageUrl = '/assets/imgs/default.png'
+        });
+        console.log("imageUrl", this.imageUrl);
+        this.afDatabase.list(`profile/${this.currentId}`).snapshotChanges().subscribe( datas => {
           this.name = datas.filter(res => res.key === "name")[0].payload.val();
           this.nickname = datas.filter(res => res.key === "username")[0].payload.val();
           this.interest = datas.filter(res => res.key === "interest")[0].payload.val();

@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database'
+import { AngularFireStorageModule} from 'angularfire2/storage'
 
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
@@ -19,7 +20,6 @@ import { ExplorePage } from '../pages/explore/explore';
 import { MessagesPage } from '../pages/messages/messages';
 import { ProjectsPage } from '../pages/projects/projects';
 import { ChatPage } from '../pages/chat/chat';
-import { FriendPage } from '../pages/friend/friend';
 
 @NgModule({
   declarations: [
@@ -30,17 +30,17 @@ import { FriendPage } from '../pages/friend/friend';
     ExplorePage,
     MessagesPage,
     ProjectsPage,
-    ChatPage,
-    FriendPage
+    ChatPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp,{
       mode: 'ios',
-      backBurronText: ''
+      backButtonText: ''
     }),
     AngularFireModule.initializeApp(firebaseConfig.fire),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    AngularFireStorageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -51,8 +51,7 @@ import { FriendPage } from '../pages/friend/friend';
     ExplorePage,
     MessagesPage,
     ProjectsPage,
-    ChatPage,
-    FriendPage
+    ChatPage
   ],
   providers: [
     StatusBar,

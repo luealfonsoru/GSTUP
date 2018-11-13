@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { ProfilePage } from '../profile/profile';
 
 /**
  * Generated class for the ExplorePage page.
@@ -16,11 +17,26 @@ import { AngularFireDatabase } from 'angularfire2/database';
 })
 export class ExplorePage {
 
+  profileList = [];
+  
   constructor(public afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
   }
 
+  gotoProfile(profileId){
+    this.navCtrl.push(ProfilePage,{pid:profileId})
+  }
+
+
+
   ionViewDidLoad() {
-    this.afDatabase.list(`profile`).snapshotChanges().subscribe( datas => {console.log(datas[0])});
+    var profileList = []
+    this.afDatabase.list(`profile`).snapshotChanges().subscribe( datas => {
+      datas.forEach(function(value){
+        profileList.push({id: value.key});
+      })
+      this.profileList = profileList;
+      console.log(this.profileList)
+    });
     console.log('ionViewDidLoad ExplorePage');
   }
 

@@ -7,12 +7,15 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Explore</ion-title>
+    <ion-title>Explorar</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <div *ngFor="let user of profileList">
+    <span (click)="gotoProfile(user.id)">{{user.id}}</span>
+  </div>
 
 </ion-content>

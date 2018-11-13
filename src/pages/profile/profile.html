@@ -1,7 +1,7 @@
 <ion-header>
 
     <ion-navbar>
-      <ion-title>Mi Perfil</ion-title>
+      <ion-title>Perfil</ion-title>
     </ion-navbar>
   
   </ion-header>
@@ -9,7 +9,7 @@
   
   <ion-content class="main-background">
     <ion-card *ngIf="about" style="height: 25vh; width:100vw;padding: 0px;margin: 0px; background-color: #000000;margin-right:1px">
-      <img src="https://firebasestorage.googleapis.com/v0/b/gettingstartup.appspot.com/o/3H5LKp1PwJRkcSmZMhkemvybLC42%2Fprofile.jpg?alt=media&token=0c631e8c-4aa6-4a95-a1c2-6c98ff775fe4">
+      <img *ngIf="imageUrl" [src]="imageUrl">
       <div class="card-title" *ngIf="name">{{name}}</div>
       <div class="card-subtitle" *ngIf="nickname">@{{nickname}}</div>
     </ion-card>
