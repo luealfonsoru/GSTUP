@@ -27995,6 +27995,15 @@ ion-navbar.toolbar {
   background-color: black;
 }
 
+page-explore ion-searchbar .searchbar-input-container {
+  background-color: #ffffff;
+}
+
+page-explore ion-searchbar .searchbar-input-container .searchbar-input {
+  border-radius: 0px;
+  text-align: center;
+}
+
 page-login .text-input {
   text-align: center;
   font-family: Roboto-Light;

@@ -1,3 +1,11 @@
 page-explore {
-
+    ion-searchbar{        
+        .searchbar-input-container{    
+            background-color: #ffffff;        
+            .searchbar-input{
+                border-radius: 0px;
+                text-align: center;
+            }
+        }
+     }
 }

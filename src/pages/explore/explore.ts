@@ -31,12 +31,13 @@ export class ExplorePage {
 
   ionViewDidLoad() {
     var profileList = []
+    var userName;
     this.afAuth.authState.take(1).subscribe(res =>{
       if(res && res.email && res.uid){
         this.afDatabase.list(`profile`).snapshotChanges().subscribe( datas => {
           datas.forEach(function(value){
             if(value.key != res.uid){
-              profileList.push({id: value.key});
+              profileList.push({id: value.key, username: value.payload.val().username, name: value.payload.val().name});
             }            
           })
           this.profileList = profileList;

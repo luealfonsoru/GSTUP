@@ -7,13 +7,13 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Explorar</ion-title>
+    <ion-searchbar placeholder="Buscar"></ion-searchbar>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="main-background">
   <div *ngFor="let user of profileList">
     <span (click)="gotoProfile(user.id)">{{user.id}}</span>
   </div>
