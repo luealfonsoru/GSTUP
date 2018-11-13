@@ -5,6 +5,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireStorage } from 'angularfire2/storage'
 import { Observable } from 'rxjs-compat';
 import 'rxjs/add/operator/take';
+import { ChatPage } from '../chat/chat';
 
 
 /**
@@ -29,9 +30,15 @@ export class ProfilePage {
   icon = "add";
   imageUrl;
   currentId = this.navParams.get('pid');
+  myProfile;
   constructor(public afStorage: AngularFireStorage, public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
   }
+  gotoChat(){
+    this.navCtrl.push(ChatPage,{id:"0"});
+  }
   loading = this.loadingCtrl.create()
+
+
   ionViewDidLoad() {
     this.loading.present();
     this.afAuth.authState.take(1).subscribe(res =>{
@@ -39,6 +46,11 @@ export class ProfilePage {
       if(res && res.email && res.uid){
         if(!this.currentId){
           this.currentId = res.uid
+        }
+        if(this.currentId === res.uid){
+          this.myProfile = true;
+        }else{
+          this.myProfile = false;
         }
         this.afStorage.ref(this.currentId + "/profile.jpg").getDownloadURL().subscribe(res =>{
           this.imageUrl = res;

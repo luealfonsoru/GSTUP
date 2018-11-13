@@ -9,6 +9,15 @@
   
   <ion-content class="main-background">
     <ion-card *ngIf="about" style="height: 25vh; width:100vw;padding: 0px;margin: 0px; background-color: #000000;margin-right:1px">
+      <div class="side-buttons" *ngIf="myProfile !== null && myProfile === false">
+        <div class="side-button">          
+        </div>
+        <div class="side-button" (click)="gotoChat()">
+            <ion-icon class="side-icon" name="mail"></ion-icon>
+            <div class="side-text">Enviar Mensaje</div>
+        </div>
+        <div class="side-button"></div>
+      </div>      
       <img *ngIf="imageUrl" [src]="imageUrl">
       <div class="card-title" *ngIf="name">{{name}}</div>
       <div class="card-subtitle" *ngIf="nickname">@{{nickname}}</div>
