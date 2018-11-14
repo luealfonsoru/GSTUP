@@ -6,13 +6,19 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>chat</ion-title>
+  <ion-navbar hide-tabs>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+  <div class="chat-input">
+    <ion-item class="text-input">
+      <ion-textarea [(ngModel)]="textInput" autocomplete="true" spellcheck="true" autocorrect="on"></ion-textarea>
+    </ion-item>
+    <button class="send-input" ion-button block style="text-transform: none;" (click)="sendText()" [disabled]="textInput == ''"><ion-icon class="icon" name="arrow-dropright"></ion-icon></button>
+  </div>
+  
 
 </ion-content>

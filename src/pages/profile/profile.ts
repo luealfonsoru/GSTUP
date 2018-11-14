@@ -32,13 +32,27 @@ export class ProfilePage {
   imageUrl;
   currentId = this.navParams.get('pid');
   myProfile;
-  chats;
+  chats = [];
+  allChats;
+  pushId;
+  userId;
+  otherChats;
 
   constructor(public afStorage: AngularFireStorage, public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
   }
 
   gotoChat(){
-    this.navCtrl.push(ChatPage,{id:"0"});
+    console.log(this.chats)
+    this.pushId = this.afDatabase.createPushId();
+    if(this.chats.length === 0){
+      this.afDatabase.list('chats').push({integrants:[this.userId,this.currentId],chats:[]}).then(res =>{
+        this.afDatabase.object(`profile/${this.currentId}/chats/${this.otherChats.length}`).set({id:this.pushId,with:this.userId}).then(res2 =>{
+          this.afDatabase.object(`profile/${this.userId}/chats/${this.allChats.length}`).set({id:this.pushId,with:this.currentId}).then(res3 =>{
+            this.navCtrl.push(ChatPage,{id:this.pushId});          
+          })
+        })
+      });
+    }
   }
 
   gotoOptions(){
@@ -53,6 +67,7 @@ export class ProfilePage {
     this.afAuth.authState.take(1).subscribe(res =>{
       console.log(res);
       if(res && res.email && res.uid){
+        this.userId = res.uid;
         if(!this.currentId){
           this.currentId = res.uid
         }
@@ -78,8 +93,19 @@ export class ProfilePage {
           }catch{
             this.awards = null;
           }
+          try{
+            this.otherChats = datas.filter(res => res.key == "chats")[0].payload.val();
+          }catch{
+            this.otherChats = [];
+          }
         })
         this.afDatabase.list(`profile/${res.uid}`).snapshotChanges().subscribe( datas =>{
+          try{
+            this.allChats = datas.filter(res => res.key == "chats")[0].payload.val();
+            
+          }catch{
+            this.allChats = [];
+          }
           try{
             // @ts-ignore
             this.chats = datas.filter(res => res.key == "chats")[0].payload.val().filter(res2 => res2.with == this.currentId);

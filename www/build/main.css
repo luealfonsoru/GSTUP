@@ -27995,6 +27995,44 @@ ion-navbar.toolbar {
   background-color: black;
 }
 
+page-chat .text-input {
+  font-family: Roboto-Light;
+  word-wrap: break-word;
+}
+
+page-chat .ion-at {
+  color: white;
+}
+
+.chat-input {
+  position: fixed;
+  width: 100vw;
+  bottom: 10vh;
+}
+
+.chat-input .text-input {
+  width: 80vw;
+  height: 60px;
+  padding-left: 16px;
+}
+
+.chat-input .send-input {
+  margin-left: 85vw;
+  width: 14vw;
+  height: 60px;
+  margin-top: -60px;
+  background-color: #08586f;
+}
+
+.chat-input .send-input .icon {
+  width: 100%;
+  margin-top: 8px;
+  margin-left: -5px;
+  text-align: center;
+  font-size: 2em;
+  color: white;
+}
+
 page-explore ion-searchbar .searchbar-input-container {
   background-color: #ffffff;
 }
@@ -28011,11 +28049,11 @@ page-explore ion-searchbar .searchbar-input-container .searchbar-input {
 }
 
 .search-box .search-result {
-  height: 5vh;
+  height: 40px;
 }
 
 .search-box .search-result .text {
-  margin-top: 3vh;
+  margin-top: 20px;
   padding-left: 2vw;
   font-size: 1em;
   font-family: Roboto-Bold;

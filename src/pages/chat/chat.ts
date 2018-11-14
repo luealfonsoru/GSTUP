@@ -16,8 +16,12 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'chat.html',
 })
 export class ChatPage {
-
+  textInput = '';
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+  }
+
+  sendText(){
+    this.textInput = '';
   }
   id = this.navParams.get('id');
   ionViewDidLoad() {
