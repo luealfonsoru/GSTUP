@@ -20,6 +20,7 @@ import { ExplorePage } from '../pages/explore/explore';
 import { MessagesPage } from '../pages/messages/messages';
 import { ProjectsPage } from '../pages/projects/projects';
 import { ChatPage } from '../pages/chat/chat';
+import { OptionsPage } from '../pages/options/options';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ChatPage } from '../pages/chat/chat';
     ExplorePage,
     MessagesPage,
     ProjectsPage,
-    ChatPage
+    ChatPage,
+    OptionsPage
   ],
   imports: [
     BrowserModule,
@@ -51,7 +53,8 @@ import { ChatPage } from '../pages/chat/chat';
     ExplorePage,
     MessagesPage,
     ProjectsPage,
-    ChatPage
+    ChatPage,
+    OptionsPage
   ],
   providers: [
     StatusBar,

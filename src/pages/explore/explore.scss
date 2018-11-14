@@ -9,3 +9,21 @@ page-explore {
         }
      }
 }
+
+.search-box{
+    position: fixed;
+    width: 100vw;
+    background-color: white;
+    .search-result{
+        height: 5vh;
+        .text{
+            margin-top: 3vh;
+            padding-left: 2vw;
+            font-size: 1em;
+            font-family: Roboto-Bold;
+            color: darkslategrey;
+        }
+    }
+}
+
+

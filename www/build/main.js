@@ -86,23 +86,34 @@ var ExplorePage = /** @class */ (function () {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.profileList = [];
+        this.searchInput = "";
+        this.searchedData = [];
     }
     ExplorePage.prototype.gotoProfile = function (profileId) {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__profile_profile__["a" /* ProfilePage */], { pid: profileId });
     };
+    ExplorePage.prototype.searchFilter = function () {
+        var _this = this;
+        console.log(this.searchInput);
+        console.log(this.searchedData);
+        this.searchedData = this.profileList.filter(function (item) {
+            return item.name.toLowerCase().includes(_this.searchInput.toLowerCase()) || item.username.toLowerCase().includes(_this.searchInput.toLowerCase());
+        });
+    };
     ExplorePage.prototype.ionViewDidLoad = function () {
         var _this = this;
         var profileList = [];
-        var userName;
         this.afAuth.authState.take(1).subscribe(function (res) {
             if (res && res.email && res.uid) {
                 _this.afDatabase.list("profile").snapshotChanges().subscribe(function (datas) {
                     datas.forEach(function (value) {
                         if (value.key != res.uid) {
+                            // @ts-ignore
                             profileList.push({ id: value.key, username: value.payload.val().username, name: value.payload.val().name });
                         }
                     });
                     _this.profileList = profileList;
+                    _this.searchFilter();
                     console.log(_this.profileList);
                 });
             }
@@ -111,7 +122,7 @@ var ExplorePage = /** @class */ (function () {
     };
     ExplorePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-explore',template:/*ion-inline-start:"/home/luis/GSTUP/src/pages/explore/explore.html"*/'<!--\n  Generated template for the ExplorePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-searchbar placeholder="Buscar"></ion-searchbar>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="main-background">\n  <div *ngFor="let user of profileList">\n    <span (click)="gotoProfile(user.id)">{{user.id}}</span>\n  </div>\n\n</ion-content>\n'/*ion-inline-end:"/home/luis/GSTUP/src/pages/explore/explore.html"*/,
+            selector: 'page-explore',template:/*ion-inline-start:"/home/luis/GSTUP/src/pages/explore/explore.html"*/'<!--\n  Generated template for the ExplorePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-searchbar placeholder="Buscar" [(ngModel)]="searchInput" (ionInput)="searchFilter()"></ion-searchbar>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="main-background">\n  <div class="search-box" *ngIf="searchInput != \'\'">\n    <div class="search-result" *ngFor="let result of searchedData" (click)="gotoProfile(result.id)">\n      <div class="text">{{result.name}} (@{{result.username}})</div>\n    </div>\n  </div>\n\n</ion-content>\n'/*ion-inline-end:"/home/luis/GSTUP/src/pages/explore/explore.html"*/,
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4_angularfire2_auth__["AngularFireAuth"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_angularfire2_auth__["AngularFireAuth"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["AngularFireDatabase"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["AngularFireDatabase"]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */]) === "function" && _d || Object])
     ], ExplorePage);
@@ -388,31 +399,35 @@ webpackEmptyAsyncContext.id = 202;
 var map = {
 	"../pages/chat/chat.module": [
 		525,
-		6
+		16
 	],
 	"../pages/explore/explore.module": [
 		526,
-		5
+		15
 	],
 	"../pages/login/login.module": [
 		527,
-		4
+		14
 	],
 	"../pages/menu/menu.module": [
 		528,
-		3
+		13
 	],
 	"../pages/messages/messages.module": [
 		529,
-		2
+		12
+	],
+	"../pages/options/options.module": [
+		532,
+		9
 	],
 	"../pages/profile/profile.module": [
 		530,
-		1
+		11
 	],
 	"../pages/projects/projects.module": [
 		531,
-		0
+		10
 	]
 };
 function webpackAsyncContext(req) {
@@ -473,12 +488,14 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_messages_messages__ = __webpack_require__(162);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_projects_projects__ = __webpack_require__(163);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_chat_chat__ = __webpack_require__(159);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_options_options__ = __webpack_require__(533);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -511,7 +528,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_15__pages_explore_explore__["a" /* ExplorePage */],
                 __WEBPACK_IMPORTED_MODULE_16__pages_messages_messages__["a" /* MessagesPage */],
                 __WEBPACK_IMPORTED_MODULE_17__pages_projects_projects__["a" /* ProjectsPage */],
-                __WEBPACK_IMPORTED_MODULE_18__pages_chat_chat__["a" /* ChatPage */]
+                __WEBPACK_IMPORTED_MODULE_18__pages_chat_chat__["a" /* ChatPage */],
+                __WEBPACK_IMPORTED_MODULE_19__pages_options_options__["a" /* OptionsPage */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -526,7 +544,8 @@ var AppModule = /** @class */ (function () {
                         { loadChildren: '../pages/menu/menu.module#MenuPageModule', name: 'MenuPage', segment: 'menu', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/messages/messages.module#MessagesPageModule', name: 'MessagesPage', segment: 'messages', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/profile/profile.module#ProfilePageModule', name: 'ProfilePage', segment: 'profile/:pid', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/projects/projects.module#ProjectsPageModule', name: 'ProjectsPage', segment: 'projects', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/projects/projects.module#ProjectsPageModule', name: 'ProjectsPage', segment: 'projects', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/options/options.module#OptionsPageModule', name: 'OptionsPage', segment: 'options', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_5_angularfire2__["AngularFireModule"].initializeApp(__WEBPACK_IMPORTED_MODULE_12__config__["a" /* firebaseConfig */].fire),
@@ -542,7 +561,8 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_15__pages_explore_explore__["a" /* ExplorePage */],
                 __WEBPACK_IMPORTED_MODULE_16__pages_messages_messages__["a" /* MessagesPage */],
                 __WEBPACK_IMPORTED_MODULE_17__pages_projects_projects__["a" /* ProjectsPage */],
-                __WEBPACK_IMPORTED_MODULE_18__pages_chat_chat__["a" /* ChatPage */]
+                __WEBPACK_IMPORTED_MODULE_18__pages_chat_chat__["a" /* ChatPage */],
+                __WEBPACK_IMPORTED_MODULE_19__pages_options_options__["a" /* OptionsPage */]
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__["a" /* StatusBar */],
@@ -682,6 +702,78 @@ var firebaseConfig = {
 
 /***/ }),
 
+/***/ 533:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OptionsPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(161);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+/**
+ * Generated class for the OptionsPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var OptionsPage = /** @class */ (function () {
+    function OptionsPage(alertCtrl, afAuth, navCtrl, navParams) {
+        this.alertCtrl = alertCtrl;
+        this.afAuth = afAuth;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    OptionsPage.prototype.logOut = function () {
+        var _this = this;
+        var alert = this.alertCtrl.create({
+            title: "Cerrando Sesión",
+            subTitle: "¿Deseas cerrar sesión?",
+            buttons: [{
+                    text: 'No',
+                    role: 'cancel'
+                }, {
+                    text: 'Sí',
+                    handler: function () {
+                        _this.afAuth.auth.signOut().then(function (res) {
+                            _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__login_login__["a" /* LoginPage */]);
+                        });
+                    }
+                }]
+        });
+        alert.present();
+    };
+    OptionsPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad OptionsPage');
+    };
+    OptionsPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-options',template:/*ion-inline-start:"/home/luis/GSTUP/src/pages/options/options.html"*/'<!--\n  Generated template for the OptionsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Configuración</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="main-background">\n  <div (click)="logOut()" class="large-button">\n    <div class="text">\n      Cerrar Sesión\n    </div>\n  </div>\n  <div class="large-button"></div>\n  <div class="large-button"></div>\n</ion-content>\n'/*ion-inline-end:"/home/luis/GSTUP/src/pages/options/options.html"*/,
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["AngularFireAuth"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["AngularFireAuth"]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */]) === "function" && _d || Object])
+    ], OptionsPage);
+    return OptionsPage;
+    var _a, _b, _c, _d;
+}());
+
+//# sourceMappingURL=options.js.map
+
+/***/ }),
+
 /***/ 92:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -698,6 +790,7 @@ var firebaseConfig = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_take__ = __webpack_require__(136);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_take__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__chat_chat__ = __webpack_require__(159);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__options_options__ = __webpack_require__(533);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -707,6 +800,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -734,6 +828,9 @@ var ProfilePage = /** @class */ (function () {
     }
     ProfilePage.prototype.gotoChat = function () {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__chat_chat__["a" /* ChatPage */], { id: "0" });
+    };
+    ProfilePage.prototype.gotoOptions = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_7__options_options__["a" /* OptionsPage */]);
     };
     ProfilePage.prototype.ionViewDidLoad = function () {
         var _this = this;
@@ -768,6 +865,15 @@ var ProfilePage = /** @class */ (function () {
                         _this.awards = null;
                     }
                 });
+                _this.afDatabase.list("profile/" + res.uid).snapshotChanges().subscribe(function (datas) {
+                    try {
+                        // @ts-ignore
+                        _this.chats = datas.filter(function (res) { return res.key == "chats"; })[0].payload.val().filter(function (res2) { return res2.with == _this.currentId; });
+                    }
+                    catch (_a) {
+                        _this.chats = [];
+                    }
+                });
             }
             else {
                 _this.navCtrl.setRoot("HomePage");
@@ -777,7 +883,7 @@ var ProfilePage = /** @class */ (function () {
     };
     ProfilePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-profile',template:/*ion-inline-start:"/home/luis/GSTUP/src/pages/profile/profile.html"*/'<ion-header>\n\n    <ion-navbar>\n      <ion-title>Perfil</ion-title>\n    </ion-navbar>\n  \n  </ion-header>\n  \n  \n  <ion-content class="main-background">\n    <ion-card *ngIf="about" style="height: 25vh; width:100vw;padding: 0px;margin: 0px; background-color: #000000;margin-right:1px">\n      <div class="side-buttons" *ngIf="myProfile !== null && myProfile === false">\n        <div class="side-button">          \n        </div>\n        <div class="side-button" (click)="gotoChat()">\n            <ion-icon class="side-icon" name="mail"></ion-icon>\n            <div class="side-text">Enviar Mensaje</div>\n        </div>\n        <div class="side-button"></div>\n      </div>      \n      <img *ngIf="imageUrl" [src]="imageUrl">\n      <div class="card-title" *ngIf="name">{{name}}</div>\n      <div class="card-subtitle" *ngIf="nickname">@{{nickname}}</div>\n    </ion-card>\n  \n    <ion-row *ngIf="interest" style="padding-bottom: 0px; margin-bottom: -20px;">\n    <ion-card style="height: 9vh; width:25vw; background-color: #0c80a0; margin-right: 1px;">\n      <div class="card-section">Intereses</div>\n    </ion-card> \n        <ion-card *ngFor="let inter of interest" style="height: 9vh; width:9vh; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" >\n            <ion-icon [name]="inter.icon" class="white-icon"></ion-icon>\n            <div class="card-subsection">{{inter.name}}</div>\n          </ion-card>\n    </ion-row>\n    <ion-row *ngIf="interest" style="margin-bottom:-15px;">\n        <ion-card style="height: 9vh; width:38vw; background-color: #0c80a0; margin-right: 1px;">\n          <div class="card-section">Reconocimientos</div>\n        </ion-card> \n        <ion-card *ngIf="!awards" style="height: 9vh; width:38vw; background-color: #0c80a0; margin-right: 1px; margin-top:12px;margin-left:1px">\n          <div class="card-error">No hay reconocimientos para mostrar</div>\n        </ion-card>\n            <ion-card *ngFor="let award of awards" style="height: 9vh; width:9vh; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" >\n                <ion-icon name="ribbon" class="white-icon"></ion-icon>\n                <div class="card-subsection">{{award}}</div>\n              </ion-card>\n\n        </ion-row>\n    <ion-row>    \n      <ion-card *ngIf="about" style="background-color: #0c80a0;">\n        <ion-card-content style="padding:3%">\n          <div class="about-title">Acerca de mi</div>\n          <div class="about-subtitle">"{{about}}"</div>\n        </ion-card-content>\n      </ion-card>\n    </ion-row>\n    \n  </ion-content>'/*ion-inline-end:"/home/luis/GSTUP/src/pages/profile/profile.html"*/,
+            selector: 'page-profile',template:/*ion-inline-start:"/home/luis/GSTUP/src/pages/profile/profile.html"*/'<ion-header>\n\n    <ion-navbar>\n      <ion-title>Perfil</ion-title>\n      <ion-buttons end *ngIf="myProfile !== null && myProfile !== false">\n        <button ion-button icon-only (click)="gotoOptions()">\n          <ion-icon class="nav-button" name="menu"></ion-icon>\n        </button>\n      </ion-buttons>\n    </ion-navbar>\n  \n  </ion-header>\n  \n  \n  <ion-content class="main-background">\n    <ion-card *ngIf="about" style="height: 25vh; width:100vw;padding: 0px;margin: 0px; background-color: #000000;margin-right:1px">\n      <div class="side-buttons" *ngIf="myProfile !== null && myProfile === false">\n        <div class="side-button">          \n        </div>\n        <div class="side-button" (click)="gotoChat()" *ngIf="chats">\n            <ion-icon class="side-icon" name="mail"></ion-icon>\n            <div class="side-text">Enviar Mensaje</div>\n        </div>\n        <div class="side-button"></div>\n      </div>      \n      <img *ngIf="imageUrl" [src]="imageUrl">\n      <div class="card-title" *ngIf="name">{{name}}</div>\n      <div class="card-subtitle" *ngIf="nickname">@{{nickname}}</div>\n    </ion-card>\n  \n    <ion-row *ngIf="interest" style="padding-bottom: 0px; margin-bottom: -20px;">\n    <ion-card style="height: 9vh; width:25vw; background-color: #0c80a0; margin-right: 1px;">\n      <div class="card-section">Intereses</div>\n    </ion-card> \n        <ion-card *ngFor="let inter of interest" style="height: 9vh; width:9vh; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" >\n            <ion-icon [name]="inter.icon" class="white-icon"></ion-icon>\n            <div class="card-subsection">{{inter.name}}</div>\n          </ion-card>\n    </ion-row>\n    <ion-row *ngIf="interest" style="margin-bottom:-15px;">\n        <ion-card style="height: 9vh; width:38vw; background-color: #0c80a0; margin-right: 1px;">\n          <div class="card-section">Reconocimientos</div>\n        </ion-card> \n        <ion-card *ngIf="!awards" style="height: 9vh; width:38vw; background-color: #0c80a0; margin-right: 1px; margin-top:12px;margin-left:1px">\n          <div class="card-error">No hay reconocimientos para mostrar</div>\n        </ion-card>\n            <ion-card *ngFor="let award of awards" style="height: 9vh; width:9vh; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" >\n                <ion-icon name="ribbon" class="white-icon"></ion-icon>\n                <div class="card-subsection">{{award}}</div>\n              </ion-card>\n\n        </ion-row>\n    <ion-row>    \n      <ion-card *ngIf="about" style="background-color: #0c80a0;">\n        <ion-card-content style="padding:3%">\n          <div class="about-title">Acerca de mi</div>\n          <div class="about-subtitle">"{{about}}"</div>\n        </ion-card-content>\n      </ion-card>\n    </ion-row>\n    \n  </ion-content>'/*ion-inline-end:"/home/luis/GSTUP/src/pages/profile/profile.html"*/,
         }),
         __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4_angularfire2_storage__["AngularFireStorage"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_angularfire2_storage__["AngularFireStorage"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["AngularFireAuth"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["AngularFireAuth"]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["AngularFireDatabase"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["AngularFireDatabase"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */]) === "function" && _f || Object])
     ], ProfilePage);

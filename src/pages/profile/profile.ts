@@ -6,6 +6,7 @@ import { AngularFireStorage } from 'angularfire2/storage'
 import { Observable } from 'rxjs-compat';
 import 'rxjs/add/operator/take';
 import { ChatPage } from '../chat/chat';
+import { OptionsPage } from "../options/options"
 
 
 /**
@@ -31,16 +32,24 @@ export class ProfilePage {
   imageUrl;
   currentId = this.navParams.get('pid');
   myProfile;
+  chats;
+
   constructor(public afStorage: AngularFireStorage, public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
   }
+
   gotoChat(){
     this.navCtrl.push(ChatPage,{id:"0"});
+  }
+
+  gotoOptions(){
+    this.navCtrl.push(OptionsPage)
   }
   loading = this.loadingCtrl.create()
 
 
   ionViewDidLoad() {
     this.loading.present();
+
     this.afAuth.authState.take(1).subscribe(res =>{
       console.log(res);
       if(res && res.email && res.uid){
@@ -52,6 +61,7 @@ export class ProfilePage {
         }else{
           this.myProfile = false;
         }
+
         this.afStorage.ref(this.currentId + "/profile.jpg").getDownloadURL().subscribe(res =>{
           this.imageUrl = res;
         }, (e) =>{
@@ -67,6 +77,14 @@ export class ProfilePage {
             this.awards = datas.filter(res => res.key == "awards")[0].payload.val();
           }catch{
             this.awards = null;
+          }
+        })
+        this.afDatabase.list(`profile/${res.uid}`).snapshotChanges().subscribe( datas =>{
+          try{
+            // @ts-ignore
+            this.chats = datas.filter(res => res.key == "chats")[0].payload.val().filter(res2 => res2.with == this.currentId);
+          }catch{
+            this.chats = [];
           }
         })
       }else{

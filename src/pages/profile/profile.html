@@ -2,6 +2,11 @@
 
     <ion-navbar>
       <ion-title>Perfil</ion-title>
+      <ion-buttons end *ngIf="myProfile !== null && myProfile !== false">
+        <button ion-button icon-only (click)="gotoOptions()">
+          <ion-icon class="nav-button" name="menu"></ion-icon>
+        </button>
+      </ion-buttons>
     </ion-navbar>
   
   </ion-header>
@@ -12,7 +17,7 @@
       <div class="side-buttons" *ngIf="myProfile !== null && myProfile === false">
         <div class="side-button">          
         </div>
-        <div class="side-button" (click)="gotoChat()">
+        <div class="side-button" (click)="gotoChat()" *ngIf="chats">
             <ion-icon class="side-icon" name="mail"></ion-icon>
             <div class="side-text">Enviar Mensaje</div>
         </div>

@@ -19,6 +19,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 export class ExplorePage {
 
   profileList = [];
+  searchInput = "";
+  searchedData = [];
   
   constructor(public afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -27,21 +29,30 @@ export class ExplorePage {
     this.navCtrl.push(ProfilePage,{pid:profileId})
   }
 
+  searchFilter(){
+    console.log(this.searchInput);
+    console.log(this.searchedData);
+    this.searchedData = this.profileList.filter((item)=>{
+      return item.name.toLowerCase().includes(this.searchInput.toLowerCase()) || item.username.toLowerCase().includes(this.searchInput.toLowerCase());
+    })
+  }
+
 
 
   ionViewDidLoad() {
     var profileList = []
-    var userName;
     this.afAuth.authState.take(1).subscribe(res =>{
       if(res && res.email && res.uid){
         this.afDatabase.list(`profile`).snapshotChanges().subscribe( datas => {
           datas.forEach(function(value){
             if(value.key != res.uid){
+              // @ts-ignore
               profileList.push({id: value.key, username: value.payload.val().username, name: value.payload.val().name});
             }            
           })
           this.profileList = profileList;
-          console.log(this.profileList)
+          this.searchFilter();
+          console.log(this.profileList);
         });
       }
 

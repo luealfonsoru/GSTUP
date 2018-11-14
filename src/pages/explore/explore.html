@@ -7,15 +7,17 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-searchbar placeholder="Buscar"></ion-searchbar>
+    <ion-searchbar placeholder="Buscar" [(ngModel)]="searchInput" (ionInput)="searchFilter()"></ion-searchbar>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content class="main-background">
-  <div *ngFor="let user of profileList">
-    <span (click)="gotoProfile(user.id)">{{user.id}}</span>
+  <div class="search-box" *ngIf="searchInput != ''">
+    <div class="search-result" *ngFor="let result of searchedData" (click)="gotoProfile(result.id)">
+      <div class="text">{{result.name}} (@{{result.username}})</div>
+    </div>
   </div>
 
 </ion-content>
