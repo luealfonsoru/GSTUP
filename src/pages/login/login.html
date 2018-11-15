@@ -14,6 +14,7 @@
         <ion-input type="password" placeholder="Contraseña" [(ngModel)]="user.password" name="upass" required></ion-input>
       </ion-item>
     <button class="login-button" ion-button block style="text-transform: none;" type="submit" [disabled]="!loginForm.valid">Iniciar Sesión</button>
-    <button class="login-button" ion-button block style="text-transform: none;" (click)="register()">Registrarse</button>
+    
   </form>
+  <button class="login-button my-form" ion-button block style="text-transform: none;" (click)="gotoRegister()">Registrarse</button>
 </ion-content>

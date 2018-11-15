@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { ExplorePage } from '../explore/explore';
 import { MessagesPage } from '../messages/messages';
-import { ProjectsPage } from '../projects/projects';
 import { ProfilePage } from '../profile/profile';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs-compat';
 import 'rxjs/add/operator/take';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { AddinfoPage } from '../addinfo/addinfo';
 
 /**
  * Generated class for the MenuPage page.
@@ -25,17 +26,32 @@ export class MenuPage {
   profileId = '0';
   explorerRoot = ExplorePage;
   messagesRoot = MessagesPage;
-  projectsRoot = ProjectsPage;
   profileRoot = ProfilePage;
   
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private afAuth: AngularFireAuth) {
+  constructor(public loadingCtrl: LoadingController, public afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, private afAuth: AngularFireAuth) {
   }
 
+  loading = this.loadingCtrl.create()
+
   ionViewDidLoad() {
+    this.loading.present();
     this.afAuth.authState.take(1).subscribe(res => {
       if(res && res.uid && res.email){
         this.profileId = res.uid;
+        this.afDatabase.list(`profile/${res.uid}`).snapshotChanges().subscribe(data =>{
+          try{
+            var duh = data.filter(res => res.key === "name")[0].payload.val;
+            this.loading.dismiss();
+          }catch{
+            this.loading.dismiss();
+            this.navCtrl.setRoot(AddinfoPage);
+            
+          }
+        },(e)=>{
+          this.loading.dismiss();
+          this.navCtrl.setRoot(AddinfoPage);
+        })
       }
     })
     console.log('ionViewDidLoad MenuPage');

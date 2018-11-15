@@ -14,5 +14,19 @@
 
 
 <ion-content class="main-background">
- <div (click)="gotoChat()">A chat</div>
+  <ion-card class="chat-message" *ngFor="let chat of chats" (click)="gotoChat(chat)">
+    <div class="chat-info">
+      <div class="chat-title">
+        {{chat.nameWith}}
+      </div>
+      <div *ngIf="chat.last" class="chat-preview">
+        <span *ngIf="userId === chat.last.by">Yo</span><span *ngIf="userId !== chat.last.by">@{{chat.nicknameWith}}</span>:<br>
+        {{chat.last.message}}
+      </div>
+    </div>
+    <div class="chat-image">
+      <img *ngIf="chat.url" [src]="chat.url">
+    </div>
+    
+  </ion-card>
 </ion-content>

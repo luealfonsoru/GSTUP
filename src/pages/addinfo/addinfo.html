@@ -1,0 +1,39 @@
+<!--
+  Generated template for the AddinfoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="main-background">
+  <ion-row>    
+    <ion-card style="background-color: #0c80a0;">
+      <ion-card-content style="padding:3%">
+        <div class="info-container">Por favor, agrega tu información de perfil</div>
+      </ion-card-content>
+    </ion-card>
+  </ion-row>
+  <ion-row>
+    <ion-item style="width: 88vw; margin-left: 10vw">
+      <ion-input type="text" placeholder="Nombre Completo*" [(ngModel)]="profile.name" autocomplete="true" spellcheck="true" autocorrect="on"></ion-input>
+    </ion-item>
+    <ion-item style="width: 88vw; margin-left: 10vw">
+      <ion-input type="text" placeholder="Nickname*" [(ngModel)]="profile.username"></ion-input>
+    </ion-item>
+    
+  </ion-row>
+
+
+</ion-content>
+
+<ion-footer>
+  <button class="bottom-button" ion-button block style="text-transform: none;">Crear Perfil</button>
+</ion-footer>

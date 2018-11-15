@@ -18,9 +18,10 @@ import { MenuPage } from '../pages/menu/menu';
 import { ProfilePage } from '../pages/profile/profile';
 import { ExplorePage } from '../pages/explore/explore';
 import { MessagesPage } from '../pages/messages/messages';
-import { ProjectsPage } from '../pages/projects/projects';
 import { ChatPage } from '../pages/chat/chat';
 import { OptionsPage } from '../pages/options/options';
+import { RegisterPage } from '../pages/register/register';
+import { AddinfoPage } from '../pages/addinfo/addinfo';
 
 @NgModule({
   declarations: [
@@ -30,9 +31,10 @@ import { OptionsPage } from '../pages/options/options';
     ProfilePage,
     ExplorePage,
     MessagesPage,
-    ProjectsPage,
     ChatPage,
-    OptionsPage
+    OptionsPage,
+    RegisterPage,
+    AddinfoPage
   ],
   imports: [
     BrowserModule,
@@ -52,9 +54,10 @@ import { OptionsPage } from '../pages/options/options';
     ProfilePage,
     ExplorePage,
     MessagesPage,
-    ProjectsPage,
     ChatPage,
-    OptionsPage
+    OptionsPage,
+    RegisterPage,
+    AddinfoPage
   ],
   providers: [
     StatusBar,

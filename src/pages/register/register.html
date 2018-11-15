@@ -1,0 +1,46 @@
+<!--
+  Generated template for the RegisterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title></ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="main-background">
+  <ion-row>    
+    <ion-card style="background-color: #0c80a0;">
+      <ion-card-content style="padding:3%">
+        <div class="info-container">¡Bienvenido o bienvenida a Getting Startup! Por favor regístrate con un correo electrónico valido.</div>
+      </ion-card-content>
+    </ion-card>
+  </ion-row>
+  <ion-row>
+    <ion-item style="width: 88vw; margin-left: 10vw">
+      <ion-input type="email" placeholder="Correo Electrónico*" [(ngModel)]="user.email"></ion-input>
+    </ion-item>
+    <ion-item style="width: 88vw; margin-left: 10vw"> 
+        <ion-input type="email" placeholder="Confirmar Correo*" [(ngModel)]="email"></ion-input>
+      </ion-item>
+  </ion-row>
+  <ion-row>
+    <ion-item style="width: 88vw; margin-left: 10vw; margin-top:2vh">
+      <ion-input type="password" placeholder="Contraseña*" [(ngModel)]="user.password"></ion-input>
+    </ion-item>
+    <ion-item style="width: 88vw; margin-left: 10vw"> 
+        <ion-input type="password" placeholder="Confirmar Contraseña*" [(ngModel)]="password"></ion-input>
+      </ion-item>
+  </ion-row>
+
+
+</ion-content>
+
+<ion-footer>
+  <button (click)="register(user)" class="bottom-button" ion-button block style="text-transform: none;" [disabled]="user.password !== password || user.email !== email || password === '' || email === ''">Registrarse</button>
+</ion-footer>

@@ -3,6 +3,11 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { AngularFireAuth } from 'angularfire2/auth'
 import { User } from '../../models/user';
 import { MenuPage } from '../menu/menu';
+import { RegisterPage } from '../register/register';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { Observable } from 'rxjs-compat';
+import 'rxjs/add/operator/take';
+import { AddinfoPage } from '../addinfo/addinfo';
 
 /**
  * Generated class for the LoginPage page.
@@ -18,10 +23,13 @@ import { MenuPage } from '../menu/menu';
 })
 export class LoginPage {
 
-  constructor(public alertCtrl: AlertController, private afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public afDatabase: AngularFireDatabase, public alertCtrl: AlertController, private afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
   }
   
   user = {} as User;
+  gotoRegister(){
+    this.navCtrl.push(RegisterPage);
+  }
   showAlert(){
     const alert = this.alertCtrl.create({
       title: "Problemas Iniciando Sesión",
@@ -33,7 +41,19 @@ export class LoginPage {
   async login(user: User){
     const result = this.afAuth.auth.signInWithEmailAndPassword(user.email,user.password).then(res =>{
       if(res.user){
-        this.navCtrl.setRoot(MenuPage);
+        this.afAuth.authState.take(1).subscribe(res=>{
+          this.afDatabase.list(`profile/${res.uid}`).snapshotChanges().subscribe(data =>{
+            try{
+              if(data.filter(res => res.key === "name")[0].payload.val){
+                this.navCtrl.setRoot(MenuPage);
+              }
+            }catch{
+              this.navCtrl.setRoot(AddinfoPage);
+            }
+          },(e)=>{
+            this.navCtrl.setRoot(AddinfoPage);
+          })
+        })
       }else{
         console.log("thou shall not be here >:v")
       }

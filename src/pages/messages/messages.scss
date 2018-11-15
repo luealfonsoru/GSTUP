@@ -1,3 +1,45 @@
 page-messages {
+    img{
+        max-width:100%;
+        opacity: 0.5;
+        height: auto;
+      }
+}
 
+.chat-message{
+    float: left;
+    height: 18vh;
+    width: 96vw;
+    margin-left: 2vw;
+    margin-bottom: 10px;
+    background-color: black;
+    color: darkslategray;
+    font-size: 1.15em;
+    border-radius: 0;
+    .chat-image{
+        height: 18vh;
+        width: 30vw;
+    }
+    .chat-info{
+        position: absolute;
+        width: 66vw;
+        height: 18vh;
+        background-color: white;
+        margin-left: 30vw;
+        .chat-title{
+            margin-top: 10px;
+            margin-left: 5px;
+            font-family: Roboto-Bold;
+            font-size: 1em;
+            color: black;
+
+        }
+        .chat-preview{
+            margin-top: 10%;
+            margin-left: 10px;
+            font-family: Roboto-Regular;
+            font-size: 1em;
+            color:darkgray;
+        }
+    }
 }
