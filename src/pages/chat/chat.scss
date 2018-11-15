@@ -9,9 +9,10 @@ page-chat {
 
 }
 .chat-container{
-    height: 82vh;
+    height: 85vh;
     width: 100vw;
-    background-color: #08586f
+    background-color: #08586f;
+    margin-bottom: 10px;
 }
 .chat{
     position: relative;
@@ -19,7 +20,7 @@ page-chat {
     min-height: 40px;
     width: 96vw;
     margin-left: 2vw;
-    margin-top: 5px;
+    margin-bottom: 10px;
     background-color: white;
     color: darkslategray;
     font-size: 1.15em;
@@ -58,7 +59,7 @@ page-chat {
     background-color: #08586f;
     bottom: 0;
     width: 100vw;
-    height: 20vh;
+    height: 18vh;
     .chat-input{
         .text-input{
             width: 80vw;

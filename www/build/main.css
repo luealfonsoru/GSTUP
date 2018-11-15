@@ -28005,9 +28005,10 @@ page-chat .ion-at {
 }
 
 .chat-container {
-  height: 82vh;
+  height: 85vh;
   width: 100vw;
   background-color: #08586f;
+  margin-bottom: 10px;
 }
 
 .chat {
@@ -28016,7 +28017,7 @@ page-chat .ion-at {
   min-height: 40px;
   width: 96vw;
   margin-left: 2vw;
-  margin-top: 5px;
+  margin-bottom: 10px;
   background-color: white;
   color: darkslategray;
   font-size: 1.15em;
@@ -28057,7 +28058,7 @@ page-chat .ion-at {
   background-color: #08586f;
   bottom: 0;
   width: 100vw;
-  height: 20vh;
+  height: 18vh;
 }
 
 .input-container .chat-input .text-input {
