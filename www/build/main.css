@@ -28004,33 +28004,86 @@ page-chat .ion-at {
   color: white;
 }
 
-.chat-input {
-  position: fixed;
+.chat-container {
+  height: 82vh;
   width: 100vw;
-  bottom: 10vh;
-}
-
-.chat-input .text-input {
-  width: 80vw;
-  height: 60px;
-  padding-left: 16px;
-}
-
-.chat-input .send-input {
-  margin-left: 85vw;
-  width: 14vw;
-  height: 60px;
-  margin-top: -60px;
   background-color: #08586f;
 }
 
-.chat-input .send-input .icon {
+.chat {
+  position: relative;
+  float: left;
+  min-height: 40px;
+  width: 96vw;
+  margin-left: 2vw;
+  margin-top: 5px;
+  background-color: white;
+  color: darkslategray;
+  font-size: 1.15em;
+}
+
+.chat .your-chat-text {
+  position: relative;
+  width: 94%;
+  font-family: Roboto-Regular;
+  padding: 15px;
+}
+
+.chat .your-chat {
+  position: absolute;
+  margin-left: 94%;
+  width: 6%;
+  height: 100%;
+  background-color: #0c80a0;
+}
+
+.chat .my-chat {
+  position: absolute;
+  width: 6%;
+  height: 100%;
+  background-color: #0c80a0;
+}
+
+.chat .my-chat-text {
+  position: relative;
+  margin-left: 6%;
+  width: 94%;
+  font-family: Roboto-Regular;
+  padding: 15px;
+}
+
+.input-container {
+  position: fixed;
+  background-color: #08586f;
+  bottom: 0;
+  width: 100vw;
+  height: 20vh;
+}
+
+.input-container .chat-input .text-input {
+  width: 80vw;
+  height: 50px;
+  padding-left: 2px;
+  margin-left: 15px;
+}
+
+.input-container .chat-input .send-input {
+  margin-left: 80vw;
+  width: 14vw;
+  height: 50px;
+  margin-top: -50px;
+  background-color: white;
+  opacity: 1;
+  border-radius: 0;
+}
+
+.input-container .chat-input .send-input .icon {
   width: 100%;
-  margin-top: 8px;
-  margin-left: -5px;
+  margin-top: 2px;
+  margin-left: -15px;
   text-align: center;
-  font-size: 2em;
-  color: white;
+  font-size: 2.3em;
+  color: gray;
 }
 
 page-explore ion-searchbar .searchbar-input-container {

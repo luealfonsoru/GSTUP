@@ -12,13 +12,35 @@
 </ion-header>
 
 
-<ion-content>
-  <div class="chat-input">
-    <ion-item class="text-input">
-      <ion-textarea [(ngModel)]="textInput" autocomplete="true" spellcheck="true" autocorrect="on"></ion-textarea>
-    </ion-item>
-    <button class="send-input" ion-button block style="text-transform: none;" (click)="sendText()" [disabled]="textInput == ''"><ion-icon class="icon" name="arrow-dropright"></ion-icon></button>
-  </div>
-  
+<ion-content class="chat-container">
+      <ion-card class="chat" *ngFor="let chat of chatList; let last = last">
+        <div class="your-chat" *ngIf="!chatByMe(chat)"></div>
+        <div class="my-chat" *ngIf="chatByMe(chat)"></div>
+        <div class="your-chat-text" *ngIf="!chatByMe(chat)">
+          {{chat.message}}
+        </div>
+        <div class="my-chat-text" *ngIf="chatByMe(chat)">
+            {{chat.message}}
+          </div>
+        {{last ? scroll() : ''}}
+      
+      </ion-card>
+ </ion-content>
 
-</ion-content>
+
+
+
+ <ion-footer>    
+  <div class="input-container">
+      <div class="chat-input">
+        <ion-item class="text-input">
+          <ion-textarea [(ngModel)]="textInput" autocomplete="true" spellcheck="true" autocorrect="on"></ion-textarea>
+        </ion-item>
+        <button class="send-input" ion-button block style="text-transform: none;" (click)="sendText()" [disabled]="textInput == ''">
+          <ion-icon class="icon" name="arrow-dropright-circle"></ion-icon>
+        </button>
+      </div>
+    </div>
+    
+  
+ </ion-footer>

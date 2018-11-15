@@ -30,28 +30,53 @@ export class ProfilePage {
   awards;
   icon = "add";
   imageUrl;
-  currentId = this.navParams.get('pid');
+  currentId;
   myProfile;
   chats = [];
   allChats;
   pushId;
   userId;
   otherChats;
+  chatId;
+  chatResults;
+  otherNickname;
+  otherName;
 
   constructor(public afStorage: AngularFireStorage, public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
   }
 
   gotoChat(){
-    console.log(this.chats)
     this.pushId = this.afDatabase.createPushId();
     if(this.chats.length === 0){
-      this.afDatabase.list('chats').push({integrants:[this.userId,this.currentId],chats:[]}).then(res =>{
-        this.afDatabase.object(`profile/${this.currentId}/chats/${this.otherChats.length}`).set({id:this.pushId,with:this.userId}).then(res2 =>{
-          this.afDatabase.object(`profile/${this.userId}/chats/${this.allChats.length}`).set({id:this.pushId,with:this.currentId}).then(res3 =>{
+      this.afDatabase.object(`chats/${this.pushId}`).set({integrants:[this.userId,this.currentId],chats:[]}).then(res =>{
+        this.afDatabase.object(`profile/${this.currentId}/chats/${this.otherChats.length}`).set({
+          id:this.pushId,
+          with:this.userId,
+          nameWith:this.otherName,
+          nicknameWith:this.otherNickname
+        }).then(res2 =>{
+          this.afDatabase.object(`profile/${this.userId}/chats/${this.allChats.length}`).set({
+            id:this.pushId,
+            with:this.currentId,
+            nicknameWith:this.nickname,
+            nameWith:this.name            
+          }).then(res3 =>{
             this.navCtrl.push(ChatPage,{id:this.pushId});          
           })
         })
       });
+    }else{
+      var currentId = this.currentId;
+      var chatId = this.chatId;
+      console.log(currentId,"cuid")
+      this.chatResults.forEach(function(result2){
+        if(currentId === result2.payload.val().with){
+          chatId = result2.payload.val().id;
+          console.log("ideal");
+        }
+        console.log("chatId",chatId)
+      })
+      this.navCtrl.push(ChatPage,{id: chatId});
     }
   }
 
@@ -63,7 +88,10 @@ export class ProfilePage {
 
   ionViewDidLoad() {
     this.loading.present();
-
+    this.currentId = this.navParams.get('pid');
+    //change this :3
+    console.log("lolololo xd xd xd ");
+    console.log(this.currentId);
     this.afAuth.authState.take(1).subscribe(res =>{
       console.log(res);
       if(res && res.email && res.uid){
@@ -99,6 +127,10 @@ export class ProfilePage {
             this.otherChats = [];
           }
         })
+        this.afDatabase.list(`profile/${res.uid}/chats`).snapshotChanges().subscribe(res2 =>{
+          this.chatResults = res2;
+          console.log(res2,"theres2")
+        });
         this.afDatabase.list(`profile/${res.uid}`).snapshotChanges().subscribe( datas =>{
           try{
             this.allChats = datas.filter(res => res.key == "chats")[0].payload.val();
@@ -112,6 +144,8 @@ export class ProfilePage {
           }catch{
             this.chats = [];
           }
+          this.otherNickname = datas.filter(res => res.key == "username")[0].payload.val();
+          this.otherName = datas.filter(res => res.key == "name")[0].payload.val();
         })
       }else{
         this.navCtrl.setRoot("HomePage");
