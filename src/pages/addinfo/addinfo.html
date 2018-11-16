@@ -14,6 +14,21 @@
 
 
 <ion-content class="main-background">
+    <ion-row>
+        <ion-card style="height: 25vh; width:100vw;padding: 0px;margin: 0px; background-color: #000000;margin-right:1px">
+          <div class="side-buttons">
+            <div class="side-button">          
+            </div>
+            <div class="side-button">
+                <ion-icon class="side-icon" name="camera"></ion-icon>
+                <div class="side-text">Agregar/<br>Cambiar</div>
+            </div>
+            <div class="side-button"></div>
+          </div>      
+          <img *ngIf="imageUrl" [src]="imageUrl">
+          <div class="card-title">Foto de Perfil</div>
+        </ion-card>
+      </ion-row>
   <ion-row>    
     <ion-card style="background-color: #0c80a0;">
       <ion-card-content style="padding:3%">
@@ -23,17 +38,44 @@
   </ion-row>
   <ion-row>
     <ion-item style="width: 88vw; margin-left: 10vw">
-      <ion-input type="text" placeholder="Nombre Completo*" [(ngModel)]="profile.name" autocomplete="true" spellcheck="true" autocorrect="on"></ion-input>
+      <ion-input type="text" placeholder="Nombre Completo*" [(ngModel)]="profile.name" autocomplete="true" spellcheck="true" autocorrect="on" maxlength="40"></ion-input>
     </ion-item>
     <ion-item style="width: 88vw; margin-left: 10vw">
-      <ion-input type="text" placeholder="Nickname*" [(ngModel)]="profile.username"></ion-input>
+      <ion-input type="text" placeholder="Nickname*" [(ngModel)]="profile.username" maxlength="20"></ion-input>
     </ion-item>
-    
+    <ion-item style="width: 88vw; margin-left: 10vw; margin-top:1vh">
+      <ion-input type="text" placeholder="Campo de Estudios/Profesión" [(ngModel)]="profile.studies" maxlength="20" autocomplete="true" spellcheck="true" autocorrect="on"></ion-input>
+    </ion-item>
+    <ion-item style="width: 96vw; margin-left: 2vw; margin-top:3vh">
+      <ion-input autocomplete="true" spellcheck="true" autocorrect="on" placeholder="Busca y Agrega entre 1 y 4 Intereses*" [(ngModel)]="searchInput" (input)="searchFilter()"></ion-input>
+    </ion-item>
+    <ion-item style="width: 96vw; margin-left: 2vw; margin-top:0" *ngFor="let result of searchedData; let last = last" (click)="addInterest(result)">
+          <div class="text">{{result.name}}
+            {{last ? scroll():''}}
+          </div> 
+    </ion-item>
   </ion-row>
+  <ion-row style="padding-bottom: 0px; margin-bottom: -20px;">
+    <ion-card style="height: 50px; width:80px; background-color: #0c80a0; margin-right: 1px;">
+      <div class="card-section">Intereses</div>
+    </ion-card> 
+        <ion-card *ngFor="let inter of profile.interest" style="height: 50px; width:50px; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" (click)="removeInterest(inter)">
+            <ion-icon [name]="inter.icon" class="white-icon"></ion-icon>
+            <ion-icon name="close-circle" class="close-icon"></ion-icon>
+            <div class="card-subsection">{{inter.name}}</div>
+          </ion-card>
+    </ion-row>
+
+    <ion-row>
+      <ion-item style="width: 88vw; margin-left: 10vw; margin-top:20px;height: 120px;">
+        <ion-textarea style="height: 120px" placeholder="Descríbete en menos de 250 caracteres" [(ngModel)]="profile.about" type="text" maxlength="250" autocomplete="true" spellcheck="true" autocorrect="on"></ion-textarea>
+      </ion-item>
+    </ion-row>
+
 
 
 </ion-content>
 
 <ion-footer>
-  <button class="bottom-button" ion-button block style="text-transform: none;">Crear Perfil</button>
+  <button (click)="createProfile()" class="bottom-button" ion-button block style="text-transform: none;" [disabled]="profile.name === '' || profile.username === '' || profile.interest.length === 0">Crear Perfil</button>
 </ion-footer>

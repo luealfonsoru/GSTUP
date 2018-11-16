@@ -28000,6 +28000,54 @@ ion-navbar.toolbar {
   color: white;
 }
 
+page-addinfo ion-searchbar {
+  margin-left: 5vw;
+}
+
+page-addinfo ion-searchbar .searchbar-input-container {
+  background-color: #ffffff;
+  border-width: 0;
+  margin-left: -6px;
+}
+
+page-addinfo ion-searchbar .searchbar-input-container .searchbar-input {
+  border-radius: 0px;
+  text-align: center;
+}
+
+page-addinfo .search-box {
+  width: 100vw;
+  background-color: white;
+}
+
+page-addinfo .search-box .search-result {
+  height: 40px;
+}
+
+page-addinfo .search-box .search-result .text {
+  margin-top: 20px;
+  padding-left: 2vw;
+  font-size: 1em;
+  font-family: Roboto-Bold;
+  color: darkslategrey;
+}
+
+page-addinfo img {
+  position: relative;
+  -webkit-transform: translateY(-40%);
+  transform: translateY(-40%);
+  max-width: 100%;
+  height: auto;
+  opacity: 0.5;
+}
+
+.close-icon {
+  margin-top: -20px;
+  font-size: 16pt;
+  color: white;
+  opacity: 0.6;
+}
+
 page-chat .text-input {
   font-family: Roboto-Light;
   word-wrap: break-word;
@@ -28268,7 +28316,7 @@ page-profile img {
 }
 
 .white-icon {
-  font-size: 6vh;
+  font-size: 10vw;
   margin-top: 5%;
   width: 100%;
   color: white;
@@ -28304,7 +28352,7 @@ ion-card .main-card {
 }
 
 .about-title {
-  font-size: 15pt;
+  font-size: 12pt;
   width: 100%;
   font-weight: bold;
   color: #fff;

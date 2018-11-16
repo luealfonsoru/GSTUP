@@ -41,6 +41,7 @@ export class ProfilePage {
   chatResults;
   otherNickname;
   otherName;
+  studies;
 
   constructor(public afStorage: AngularFireStorage, public loadingCtrl: LoadingController, private afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -120,6 +121,11 @@ export class ProfilePage {
             this.awards = datas.filter(res => res.key == "awards")[0].payload.val();
           }catch{
             this.awards = null;
+          }
+          try{
+            this.studies = datas.filter(res => res.key == "studies")[0].payload.val();
+          }catch{
+            this.studies = null;
           }
           try{
             this.otherChats = datas.filter(res => res.key == "chats")[0].payload.val();

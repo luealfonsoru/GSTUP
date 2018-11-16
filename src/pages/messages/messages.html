@@ -14,7 +14,7 @@
 
 
 <ion-content class="main-background">
-  <ion-card class="chat-message" *ngFor="let chat of chats" (click)="gotoChat(chat)">
+  <ion-card class="chat-message" *ngFor="let chat of chats" (click)="gotoChat(chat)" style="margin-top:-5px">
     <div class="chat-info">
       <div class="chat-title">
         {{chat.nameWith}}
