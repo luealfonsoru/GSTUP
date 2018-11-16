@@ -14,18 +14,18 @@
 
 
 <ion-content class="main-background">
-  <div *ngIf="projects && ideas && organizations && projects.length === 0 && ideas.length === 0 && organizations.length === 0 && myProfile">
+  <div *ngIf="projects && ideas && organizations && projects.length === 0 && ideas.length !== 0 && organizations.length === 0 && myProfile">
     <ion-card style="background-color: #0c80a0; height: 30vh;" (click)="gotoAddIdea()">
       <div class="add-big">Crear Idea</div>
       <ion-icon class="add-icon-big" name="bulb"></ion-icon>
       <div class="add-subtitle-big">¡Una idea puede cambiar el mundo! comparte tus ideas (vagas o elaboradas) y entre todos los startes te ayudaremos a complementarla hasta convertirla en un proyecto</div>
     </ion-card>
-    <ion-card style="background-color: #0c80a0; height: 30vh;">
+    <ion-card style="background-color: #0c80a0; height: 30vh;" (click)="gotoAddProject()">
       <div class="add-big">Agregar Proyecto</div>
       <ion-icon class="add-icon-big" name="cube"></ion-icon>
       <div class="add-subtitle-big">Agrega tus proyectos a Getting Startup: obtén financiación, ingresa a convocatorias y da a conocer el fruto de tu trabajo.</div>
     </ion-card>
-    <ion-card style="background-color: #0c80a0; height: 30vh;">
+    <ion-card style="background-color: #0c80a0; height: 30vh;" (click)="gotoAddOrg()">
       <div class="add-big">Crear Organización </div>
       <ion-icon class="add-icon-big" name="contacts"></ion-icon>
       <div class="add-subtitle-big">Las organizaciones en Getting Startup son agrupaciones de proyectos. Crea una organización para tu empresa, escuela o grupo; podrás crear convocatorias y concursos*</div>

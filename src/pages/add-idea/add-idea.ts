@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, Content, AlertController } from 'i
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { ProjectsPage } from '../projects/projects';
+import { Observable } from 'rxjs-compat';
+import 'rxjs/add/operator/take';
 
 /**
  * Generated class for the AddIdeaPage page.
@@ -62,7 +64,7 @@ export class AddIdeaPage {
   maxInterest(){
     const alert = this.alertCtrl.create({
       title: "No puedes agregar más",
-      subTitle: "Debes agregar entre 1 y 4 intereses",
+      subTitle: "Debes agregar entre 1 y 4 perks",
       buttons: [{
         text: 'Aceptar',
         handler: () =>{

@@ -5,6 +5,8 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs-compat';
 import 'rxjs/add/operator/take';
 import { AddIdeaPage } from '../add-idea/add-idea';
+import { AddProjectPage } from '../add-project/add-project';
+import { AddOrgPage } from '../add-org/add-org';
 
 /**
  * Generated class for the ProjectsPage page.
@@ -33,6 +35,13 @@ export class ProjectsPage {
 
   gotoAddIdea(){
     this.navCtrl.push(AddIdeaPage);
+  }
+  gotoAddProject(){
+    this.navCtrl.push(AddProjectPage);
+  }
+
+  gotoAddOrg(){
+    this.navCtrl.push(AddOrgPage);
   }
 
   ionViewDidLoad() {

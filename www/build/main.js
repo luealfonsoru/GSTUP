@@ -11,6 +11,9 @@ webpackJsonp([13],{
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_database___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_angularfire2_database__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__projects_projects__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_take__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_take__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20,6 +23,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
+
 
 
 
@@ -39,12 +44,12 @@ var AddIdeaPage = /** @class */ (function () {
         this.navParams = navParams;
         this.imageUrl = '/assets/imgs/defaulti.jpg';
         this.profile = {
-            id: '',
             title: '',
             about: '',
             brainstorm: [],
             perks: [],
             likes: 0,
+            by: ''
         };
         this.searchInput = '';
     }
@@ -73,7 +78,7 @@ var AddIdeaPage = /** @class */ (function () {
         var _this = this;
         var alert = this.alertCtrl.create({
             title: "No puedes agregar más",
-            subTitle: "Debes agregar entre 1 y 4 intereses",
+            subTitle: "Debes agregar entre 1 y 4 perks",
             buttons: [{
                     text: 'Aceptar',
                     handler: function () {
@@ -83,6 +88,17 @@ var AddIdeaPage = /** @class */ (function () {
                 }]
         });
         alert.present();
+    };
+    AddIdeaPage.prototype.createProfile = function () {
+        var _this = this;
+        this.afAuth.authState.take(1).subscribe(function (res) {
+            var pushId = _this.afDatabase.createPushId();
+            _this.afDatabase.object("profile/" + res.uid + "/ideas/" + pushId).set(_this.profile).then(function () {
+                _this.afDatabase.object("ideas/" + pushId).set(_this.profile).then(function () {
+                    _this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_4__projects_projects__["a" /* ProjectsPage */]);
+                });
+            });
+        });
     };
     AddIdeaPage.prototype.scroll = function () {
         this.content.scrollTo(0, 250);
@@ -103,10 +119,11 @@ var AddIdeaPage = /** @class */ (function () {
     };
     AddIdeaPage.prototype.ionViewDidLoad = function () {
         var _this = this;
-        console.log(this.profile.about, "about");
+        console.log(this.profile, "about");
         this.afAuth.authState.take(1).subscribe(function (res) {
             if (res && res.uid && res.email) {
                 _this.userId = res.uid;
+                _this.profile.by = res.uid;
             }
             _this.afDatabase.list("interests").snapshotChanges().subscribe(function (data) {
                 var interests = [];
@@ -121,15 +138,16 @@ var AddIdeaPage = /** @class */ (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */])
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]) === "function" && _a || Object)
     ], AddIdeaPage.prototype, "content", void 0);
     AddIdeaPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-add-idea',template:/*ion-inline-start:"/home/luis/GSTUP/src/pages/add-idea/add-idea.html"*/'<!--\n  Generated template for the AddIdeaPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Agregar Idea</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content class="main-background">\n  <ion-row>\n      <ion-card style="height: 25vh; width:100vw;padding: 0px;margin: 0px; background-color: #000000;margin-right:1px">\n        <img *ngIf="imageUrl" [src]="imageUrl">\n        <div class="card-title">¡Nueva Idea!</div>\n      </ion-card>\n    </ion-row>\n<ion-row>    \n  <ion-card style="background-color: #0c80a0;">\n    <ion-card-content style="padding:3%">\n      <div class="info-container">Por favor, agrega la información de tu idea</div>\n    </ion-card-content>\n  </ion-card>\n</ion-row>\n<ion-row>\n  <ion-item style="width: 88vw; margin-left: 10vw">\n    <ion-input type="text" placeholder="Título*" [(ngModel)]="profile.title" autocomplete="true" spellcheck="true" autocorrect="on" maxlength="40"></ion-input>\n  </ion-item>\n  <ion-item style="width: 96vw; margin-left: 2vw; margin-top:3vh">\n    <ion-input autocomplete="true" spellcheck="true" autocorrect="on" placeholder="Busca y Agrega entre 1 y 4 Perks*" [(ngModel)]="searchInput" (input)="searchFilter()"></ion-input>\n  </ion-item>\n  <ion-item style="width: 96vw; margin-left: 2vw; margin-top:0" *ngFor="let result of searchedData; let last = last" (click)="addInterest(result)">\n        <div class="text">{{result.name}}\n          {{last ? scroll():\'\'}}\n        </div> \n  </ion-item>\n</ion-row>\n<ion-row style="padding-bottom: 0px; margin-bottom: -20px;">\n  <ion-card style="height: 50px; width:80px; background-color: #0c80a0; margin-right: 1px;">\n    <div class="card-section">Perks</div>\n  </ion-card> \n      <ion-card *ngFor="let inter of profile.perks" style="height: 50px; width:50px; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" (click)="removeInterest(inter)">\n          <ion-icon [name]="inter.icon" class="white-icon"></ion-icon>\n          <ion-icon name="close-circle" class="close-icon"></ion-icon>\n          <div class="card-subsection">{{inter.name}}</div>\n        </ion-card>\n  </ion-row>\n\n  <ion-row>\n    <ion-item style="width: 88vw; margin-left: 10vw; margin-top:20px;height: 120px;">\n      <ion-textarea style="height: 120px" placeholder="Descríbe tu idea en menos de 250 caracteres" [(ngModel)]="profile.about" type="text" maxlength="250" autocomplete="true" spellcheck="true" autocorrect="on"></ion-textarea>\n    </ion-item>\n  </ion-row>\n\n\n\n</ion-content>\n\n<ion-footer>\n<button (click)="createProfile()" class="bottom-button" ion-button block style="text-transform: none;" [disabled]="profile.name === \'\' || profile.about === \'\' || profile.perks.length === 0">Crear Idea</button>\n</ion-footer>'/*ion-inline-end:"/home/luis/GSTUP/src/pages/add-idea/add-idea.html"*/,
+            selector: 'page-add-idea',template:/*ion-inline-start:"/home/luis/GSTUP/src/pages/add-idea/add-idea.html"*/'<!--\n  Generated template for the AddIdeaPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Crear Idea</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content class="main-background">\n  <ion-row>\n      <ion-card style="height: 25vh; width:100vw;padding: 0px;margin: 0px; background-color: #000000;margin-right:1px">\n        <img *ngIf="imageUrl" [src]="imageUrl">\n        <div class="card-title">¡Nueva Idea!</div>\n      </ion-card>\n    </ion-row>\n<ion-row>    \n  <ion-card style="background-color: #0c80a0;">\n    <ion-card-content style="padding:3%">\n      <div class="info-container">Por favor, agrega la información de tu idea</div>\n    </ion-card-content>\n  </ion-card>\n</ion-row>\n<ion-row>\n  <ion-item style="width: 88vw; margin-left: 10vw">\n    <ion-input type="text" placeholder="Título*" [(ngModel)]="profile.title" autocomplete="true" spellcheck="true" autocorrect="on" maxlength="40"></ion-input>\n  </ion-item>\n  <ion-item style="width: 96vw; margin-left: 2vw; margin-top:3vh">\n    <ion-input autocomplete="true" spellcheck="true" autocorrect="on" placeholder="Busca y Agrega entre 1 y 4 Perks*" [(ngModel)]="searchInput" (input)="searchFilter()"></ion-input>\n  </ion-item>\n  <ion-item style="width: 96vw; margin-left: 2vw; margin-top:0" *ngFor="let result of searchedData; let last = last" (click)="addInterest(result)">\n        <div class="text">{{result.name}}\n          {{last ? scroll():\'\'}}\n        </div> \n  </ion-item>\n</ion-row>\n<ion-row style="padding-bottom: 0px; margin-bottom: -20px;">\n  <ion-card style="height: 50px; width:80px; background-color: #0c80a0; margin-right: 1px;">\n    <div class="card-section">Perks</div>\n  </ion-card> \n      <ion-card *ngFor="let inter of profile.perks" style="height: 50px; width:50px; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" (click)="removeInterest(inter)">\n          <ion-icon [name]="inter.icon" class="white-icon"></ion-icon>\n          <ion-icon name="close-circle" class="close-icon"></ion-icon>\n          <div class="card-subsection">{{inter.name}}</div>\n        </ion-card>\n  </ion-row>\n\n  <ion-row>\n    <ion-item style="width: 88vw; margin-left: 10vw; margin-top:20px;height: 120px;">\n      <ion-textarea style="height: 120px" placeholder="Descríbe tu idea en menos de 250 caracteres" [(ngModel)]="profile.about" type="text" maxlength="250" autocomplete="true" spellcheck="true" autocorrect="on"></ion-textarea>\n    </ion-item>\n  </ion-row>\n\n\n\n</ion-content>\n\n<ion-footer>\n<button (click)="createProfile()" class="bottom-button" ion-button block style="text-transform: none;" [disabled]="profile.name === \'\' || profile.about === \'\' || profile.perks.length === 0">Crear Idea</button>\n</ion-footer>'/*ion-inline-end:"/home/luis/GSTUP/src/pages/add-idea/add-idea.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["AngularFireDatabase"], __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["AngularFireAuth"], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["AngularFireDatabase"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["AngularFireDatabase"]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["AngularFireAuth"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["AngularFireAuth"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]) === "function" && _f || Object])
     ], AddIdeaPage);
     return AddIdeaPage;
+    var _a, _b, _c, _d, _e, _f;
 }());
 
 //# sourceMappingURL=add-idea.js.map
@@ -733,6 +751,12 @@ var AddOrgPage = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AddProjectPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_take__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_take__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_auth__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_auth___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_angularfire2_auth__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angularfire2_database__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angularfire2_database___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_angularfire2_database__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -744,6 +768,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
+
 /**
  * Generated class for the AddProjectPage page.
  *
@@ -751,20 +778,158 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * Ionic pages and navigation.
  */
 var AddProjectPage = /** @class */ (function () {
-    function AddProjectPage(navCtrl, navParams) {
+    function AddProjectPage(afAuth, afDatabase, alertCtrl, navCtrl, navParams) {
+        this.afAuth = afAuth;
+        this.afDatabase = afDatabase;
+        this.alertCtrl = alertCtrl;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.imageUrl = '/assets/imgs/defaulti.jpg';
+        this.profile = {
+            title: '',
+            about: '',
+            stages: [],
+            perks: [],
+            integrants: [],
+            awards: [],
+            sp: [],
+            likes: 0,
+            by: ''
+        };
+        this.searchInput = '';
+        this.searchInput2 = '';
+        this.profileList = [];
+        this.searchedData2 = [];
+        this.titleTemp = '';
+        this.descriptionTemp = '';
+        this.adding = false;
     }
+    AddProjectPage.prototype.addInterest = function (categorie) {
+        if (this.profile.perks.length < 4) {
+            var myIndex;
+            this.profile.perks.push(categorie);
+            myIndex = this.interests.indexOf(categorie);
+            this.interests.splice(myIndex, 1);
+            this.searchInput = '';
+            this.searchedData = [];
+        }
+        else {
+            this.maxInterest();
+        }
+    };
+    AddProjectPage.prototype.removeInterest = function (categorie) {
+        var myIndex;
+        this.interests.push(categorie);
+        myIndex = this.profile.perks.indexOf(categorie);
+        this.profile.perks.splice(myIndex, 1);
+        this.searchInput = '';
+        this.searchedData = [];
+    };
+    AddProjectPage.prototype.addInterest2 = function (categorie) {
+        var myIndex;
+        this.profile.integrants.push(categorie);
+        myIndex = this.profileList.indexOf(categorie);
+        this.profileList.splice(myIndex, 1);
+        this.searchInput2 = '';
+        this.searchedData2 = [];
+    };
+    AddProjectPage.prototype.removeInterest2 = function (categorie) {
+        var myIndex;
+        this.profileList.push(categorie);
+        myIndex = this.profile.integrants.indexOf(categorie);
+        this.profile.integrants.splice(myIndex, 1);
+        this.searchInput2 = '';
+        this.searchedData2 = [];
+    };
+    AddProjectPage.prototype.maxInterest = function () {
+        var _this = this;
+        var alert = this.alertCtrl.create({
+            title: "No puedes agregar más",
+            subTitle: "Debes agregar entre 1 y 4 perks",
+            buttons: [{
+                    text: 'Aceptar',
+                    handler: function () {
+                        _this.searchInput = '';
+                        _this.searchedData = [];
+                    }
+                }]
+        });
+        alert.present();
+    };
+    AddProjectPage.prototype.scroll = function () {
+        this.content.scrollTo(0, 250);
+    };
+    AddProjectPage.prototype.scroll2 = function () {
+        this.content.scrollToBottom();
+    };
+    AddProjectPage.prototype.searchFilter = function () {
+        var _this = this;
+        if (this.searchInput === '') {
+            this.searchedData = [];
+            this.content.scrollTo(0, 250);
+        }
+        else {
+            this.content.scrollTo(0, 250);
+            this.searchedData = this.interests.filter(function (item) {
+                return item.name.toLowerCase().includes(_this.searchInput.toLowerCase());
+            });
+        }
+        console.log(this.searchedData);
+    };
+    AddProjectPage.prototype.searchFilter2 = function () {
+        var _this = this;
+        if (this.searchInput2 === '') {
+            this.searchedData2 = [];
+            this.content.scrollTo(0, 250);
+        }
+        else {
+            this.content.scrollTo(0, 250);
+            this.searchedData2 = this.profileList.filter(function (item) {
+                return item.name.toLowerCase().includes(_this.searchInput2.toLowerCase()) || item.username.toLowerCase().includes(_this.searchInput2.toLowerCase());
+            });
+            console.log(this.searchedData);
+        }
+    };
     AddProjectPage.prototype.ionViewDidLoad = function () {
+        var _this = this;
+        var profileList = [];
+        this.afAuth.authState.take(1).subscribe(function (res) {
+            if (res && res.email && res.uid) {
+                _this.afDatabase.list("profile").snapshotChanges().subscribe(function (datas) {
+                    datas.forEach(function (value) {
+                        if (value.key != res.uid) {
+                            // @ts-ignore
+                            profileList.push({ id: value.key, username: value.payload.val().username, name: value.payload.val().name });
+                        }
+                    });
+                    _this.profileList = profileList;
+                    _this.searchFilter2();
+                    console.log(_this.profileList);
+                });
+                _this.afDatabase.list("interests").snapshotChanges().subscribe(function (data) {
+                    var interests = [];
+                    data.forEach(function (result) {
+                        interests.push(result.payload.val());
+                    });
+                    _this.interests = interests;
+                    console.log(_this.interests);
+                });
+            }
+        });
         console.log('ionViewDidLoad AddProjectPage');
     };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_8" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* Content */]) === "function" && _a || Object)
+    ], AddProjectPage.prototype, "content", void 0);
     AddProjectPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-add-project',template:/*ion-inline-start:"/home/luis/GSTUP/src/pages/add-project/add-project.html"*/'<!--\n  Generated template for the AddProjectPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>addProject</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/home/luis/GSTUP/src/pages/add-project/add-project.html"*/,
+            selector: 'page-add-project',template:/*ion-inline-start:"/home/luis/GSTUP/src/pages/add-project/add-project.html"*/'<!--\n  Generated template for the AddProjectPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Crear Proyecto</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content class="main-background">\n  <ion-row>\n      <ion-card style="height: 25vh; width:100vw;padding: 0px;margin: 0px; background-color: #000000;margin-right:1px">\n        <img *ngIf="imageUrl" [src]="imageUrl">\n        <div class="card-title">¡Nuevo Proyecto!</div>\n      </ion-card>\n    </ion-row>\n<ion-row>    \n  <ion-card style="background-color: #0c80a0;">\n    <ion-card-content style="padding:3%">\n      <div class="info-container">Por favor, agrega la información de tu proyecto</div>\n    </ion-card-content>\n  </ion-card>\n</ion-row>\n<ion-row>\n  <ion-item style="width: 88vw; margin-left: 10vw">\n    <ion-input type="text" placeholder="Título*" [(ngModel)]="profile.title" autocomplete="true" spellcheck="true" autocorrect="on" maxlength="40"></ion-input>\n  </ion-item>\n  <ion-item style="width: 96vw; margin-left: 2vw; margin-top:3vh">\n    <ion-input autocomplete="true" spellcheck="true" autocorrect="on" placeholder="Busca y Agrega entre 1 y 4 Perks*" [(ngModel)]="searchInput" (input)="searchFilter()"></ion-input>\n  </ion-item>\n  <ion-item style="width: 96vw; margin-left: 2vw; margin-top:0" *ngFor="let result of searchedData; let last = last" (click)="addInterest(result)">\n        <div class="text">{{result.name}}\n          {{last ? scroll():\'\'}}\n        </div> \n  </ion-item>\n</ion-row>\n\n\n<ion-row style="padding-bottom: 0px;">\n  <ion-card style="height: 50px; width:80px; background-color: #0c80a0; margin-right: 1px;">\n    <div class="card-section">Perks</div>\n  </ion-card> \n      <ion-card *ngFor="let inter of profile.perks" style="height: 50px; width:50px; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" (click)="removeInterest(inter)">\n          <ion-icon [name]="inter.icon" class="white-icon"></ion-icon>\n          <ion-icon name="close-circle" class="close-icon"></ion-icon>\n          <div class="card-subsection">{{inter.name}}</div>\n        </ion-card>\n  </ion-row>\n\n  <ion-row>\n    <ion-item style="width: 96vw; margin-left: 2vw; margin-top:3vh">\n      <ion-input autocomplete="true" spellcheck="true" autocorrect="on" placeholder="Busca y Agrega Starters a tu proyecto" [(ngModel)]="searchInput2" (input)="searchFilter2()"></ion-input>\n    </ion-item>\n    <ion-item style="width: 96vw; margin-left: 2vw; margin-top:0" *ngFor="let result of searchedData2; let last = last" (click)="addInterest2(result)">\n          <div class="text">{{result.name}}\n            {{last ? scroll():\'\'}}\n          </div> \n    </ion-item>  \n  </ion-row>\n\n  <ion-row style="padding-bottom: 0px; margin-bottom: -20px;">\n    <ion-card style="height: 50px; width:80px; background-color: #0c80a0; margin-right: 1px;">\n      <div class="card-section">Integrantes</div>\n    </ion-card> \n        <ion-card *ngFor="let inter of profile.integrants" style="height: 50px; width:50px; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" (click)="removeInterest2(inter)">\n            <ion-icon name="md-person" class="white-icon"></ion-icon>\n            <ion-icon name="close-circle" class="close-icon"></ion-icon>\n            <div class="card-subsection">{{inter.username}}</div>\n          </ion-card>\n    </ion-row>\n\n  <ion-row>\n    <ion-item style="width: 88vw; margin-left: 10vw; margin-top:20px;height: 120px;">\n      <ion-textarea style="height: 120px" placeholder="Descríbe tu proyecto en menos de 250 caracteres" [(ngModel)]="profile.about" type="text" maxlength="250" autocomplete="true" spellcheck="true" autocorrect="on"></ion-textarea>\n    </ion-item>\n  </ion-row>\n\n <ion-row style="padding-bottom: 0px; margin-bottom: -20px;">\n    <ion-card style="height: 50px; width:80px; background-color: #0c80a0; margin-right: 1px;">\n      <div class="card-section">Etapas</div>\n    </ion-card> \n        <ion-card *ngFor="let inter of profile.integrants" style="height: 50px; width:80px; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" (click)="removeInterest2(inter)">\n            <ion-icon name="md-person" class="white-icon"></ion-icon>\n            <ion-icon name="close-circle" class="close-icon"></ion-icon>\n            <div class="card-subsection">{{inter.username}}</div>\n          </ion-card>\n\n        <ion-card style="height: 50px; width:50px; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" (click)="adding = !adding; scroll2()">\n            <ion-icon name="add-circle" class="white-icon"></ion-icon>\n            <div class="card-subsection">Agregar</div>\n          </ion-card>\n\n    </ion-row>\n\n    <ion-row *ngIf="adding === true">\n      <ion-item style="width: 88vw; margin-left: 10vw; margin-top:20px;height: 120px;">\n        <ion-textarea style="height: 120px" placeholder="Descríbe tu proyecto en menos de 250 caracteres" [(ngModel)]="profile.about" type="text" maxlength="250" autocomplete="true" spellcheck="true" autocorrect="on"></ion-textarea>\n      </ion-item>\n    </ion-row>\n\n\n\n</ion-content>\n\n<ion-footer>\n<button (click)="createProfile()" class="bottom-button" ion-button block style="text-transform: none;" [disabled]="profile.name === \'\' || profile.about === \'\' || profile.perks.length === 0">Crear Idea</button>\n</ion-footer>'/*ion-inline-end:"/home/luis/GSTUP/src/pages/add-project/add-project.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3_angularfire2_auth__["AngularFireAuth"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_angularfire2_auth__["AngularFireAuth"]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4_angularfire2_database__["AngularFireDatabase"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_angularfire2_database__["AngularFireDatabase"]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]) === "function" && _f || Object])
     ], AddProjectPage);
     return AddProjectPage;
+    var _a, _b, _c, _d, _e, _f;
 }());
 
 //# sourceMappingURL=add-project.js.map
@@ -1218,6 +1383,8 @@ var AddinfoPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_take__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_take__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__add_idea_add_idea__ = __webpack_require__(164);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__add_project_add_project__ = __webpack_require__(307);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__add_org_add_org__ = __webpack_require__(306);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1227,6 +1394,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
+
 
 
 
@@ -1248,6 +1417,12 @@ var ProjectsPage = /** @class */ (function () {
     }
     ProjectsPage.prototype.gotoAddIdea = function () {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__add_idea_add_idea__["a" /* AddIdeaPage */]);
+    };
+    ProjectsPage.prototype.gotoAddProject = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__add_project_add_project__["a" /* AddProjectPage */]);
+    };
+    ProjectsPage.prototype.gotoAddOrg = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_7__add_org_add_org__["a" /* AddOrgPage */]);
     };
     ProjectsPage.prototype.ionViewDidLoad = function () {
         var _this = this;
@@ -1290,11 +1465,12 @@ var ProjectsPage = /** @class */ (function () {
     };
     ProjectsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-projects',template:/*ion-inline-start:"/home/luis/GSTUP/src/pages/projects/projects.html"*/'<!--\n  Generated template for the ProjectsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Proyectos</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="main-background">\n  <div *ngIf="projects && ideas && organizations && projects.length === 0 && ideas.length === 0 && organizations.length === 0 && myProfile">\n    <ion-card style="background-color: #0c80a0; height: 30vh;" (click)="gotoAddIdea()">\n      <div class="add-big">Crear Idea</div>\n      <ion-icon class="add-icon-big" name="bulb"></ion-icon>\n      <div class="add-subtitle-big">¡Una idea puede cambiar el mundo! comparte tus ideas (vagas o elaboradas) y entre todos los startes te ayudaremos a complementarla hasta convertirla en un proyecto</div>\n    </ion-card>\n    <ion-card style="background-color: #0c80a0; height: 30vh;">\n      <div class="add-big">Agregar Proyecto</div>\n      <ion-icon class="add-icon-big" name="cube"></ion-icon>\n      <div class="add-subtitle-big">Agrega tus proyectos a Getting Startup: obtén financiación, ingresa a convocatorias y da a conocer el fruto de tu trabajo.</div>\n    </ion-card>\n    <ion-card style="background-color: #0c80a0; height: 30vh;">\n      <div class="add-big">Crear Organización </div>\n      <ion-icon class="add-icon-big" name="contacts"></ion-icon>\n      <div class="add-subtitle-big">Las organizaciones en Getting Startup son agrupaciones de proyectos. Crea una organización para tu empresa, escuela o grupo; podrás crear convocatorias y concursos*</div>\n    </ion-card>\n  </div>\n\n</ion-content>\n'/*ion-inline-end:"/home/luis/GSTUP/src/pages/projects/projects.html"*/,
+            selector: 'page-projects',template:/*ion-inline-start:"/home/luis/GSTUP/src/pages/projects/projects.html"*/'<!--\n  Generated template for the ProjectsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Proyectos</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="main-background">\n  <div *ngIf="projects && ideas && organizations && projects.length === 0 && ideas.length !== 0 && organizations.length === 0 && myProfile">\n    <ion-card style="background-color: #0c80a0; height: 30vh;" (click)="gotoAddIdea()">\n      <div class="add-big">Crear Idea</div>\n      <ion-icon class="add-icon-big" name="bulb"></ion-icon>\n      <div class="add-subtitle-big">¡Una idea puede cambiar el mundo! comparte tus ideas (vagas o elaboradas) y entre todos los startes te ayudaremos a complementarla hasta convertirla en un proyecto</div>\n    </ion-card>\n    <ion-card style="background-color: #0c80a0; height: 30vh;" (click)="gotoAddProject()">\n      <div class="add-big">Agregar Proyecto</div>\n      <ion-icon class="add-icon-big" name="cube"></ion-icon>\n      <div class="add-subtitle-big">Agrega tus proyectos a Getting Startup: obtén financiación, ingresa a convocatorias y da a conocer el fruto de tu trabajo.</div>\n    </ion-card>\n    <ion-card style="background-color: #0c80a0; height: 30vh;" (click)="gotoAddOrg()">\n      <div class="add-big">Crear Organización </div>\n      <ion-icon class="add-icon-big" name="contacts"></ion-icon>\n      <div class="add-subtitle-big">Las organizaciones en Getting Startup son agrupaciones de proyectos. Crea una organización para tu empresa, escuela o grupo; podrás crear convocatorias y concursos*</div>\n    </ion-card>\n  </div>\n\n</ion-content>\n'/*ion-inline-end:"/home/luis/GSTUP/src/pages/projects/projects.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["AngularFireAuth"], __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["AngularFireDatabase"], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["AngularFireAuth"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["AngularFireAuth"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["AngularFireDatabase"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["AngularFireDatabase"]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */]) === "function" && _d || Object])
     ], ProjectsPage);
     return ProjectsPage;
+    var _a, _b, _c, _d;
 }());
 
 //# sourceMappingURL=projects.js.map
