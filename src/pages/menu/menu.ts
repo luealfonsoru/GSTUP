@@ -8,6 +8,7 @@ import { Observable } from 'rxjs-compat';
 import 'rxjs/add/operator/take';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AddinfoPage } from '../addinfo/addinfo';
+import { ProjectsPage } from '../projects/projects';
 
 /**
  * Generated class for the MenuPage page.
@@ -27,6 +28,7 @@ export class MenuPage {
   explorerRoot = ExplorePage;
   messagesRoot = MessagesPage;
   profileRoot = ProfilePage;
+  projectsRoot = ProjectsPage;
   
 
   constructor(public loadingCtrl: LoadingController, public afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams, private afAuth: AngularFireAuth) {

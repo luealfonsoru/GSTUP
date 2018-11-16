@@ -68,5 +68,13 @@
                 <div class="card-subsection">{{studies}}</div>
               </ion-card>
         </ion-row>
+
+        <ion-row (click)="gotoProjects()">    
+          <ion-card *ngIf="about" style="background-color: #0c80a0;">
+            <ion-card-content style="padding:3%">
+              <div class="about-title">Ver ideas, proyectos y organizaciones de este starter</div>
+            </ion-card-content>
+          </ion-card>
+        </ion-row>
     
   </ion-content>

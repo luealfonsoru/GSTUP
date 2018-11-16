@@ -28000,6 +28000,47 @@ ion-navbar.toolbar {
   color: white;
 }
 
+page-add-idea ion-searchbar {
+  margin-left: 5vw;
+}
+
+page-add-idea ion-searchbar .searchbar-input-container {
+  background-color: #ffffff;
+  border-width: 0;
+  margin-left: -6px;
+}
+
+page-add-idea ion-searchbar .searchbar-input-container .searchbar-input {
+  border-radius: 0px;
+  text-align: center;
+}
+
+page-add-idea .search-box {
+  width: 100vw;
+  background-color: white;
+}
+
+page-add-idea .search-box .search-result {
+  height: 40px;
+}
+
+page-add-idea .search-box .search-result .text {
+  margin-top: 20px;
+  padding-left: 2vw;
+  font-size: 1em;
+  font-family: Roboto-Bold;
+  color: darkslategrey;
+}
+
+page-add-idea img {
+  position: relative;
+  -webkit-transform: translateY(-10%);
+  transform: translateY(-10%);
+  max-width: 100%;
+  height: auto;
+  opacity: 0.5;
+}
+
 page-addinfo ion-searchbar {
   margin-left: 5vw;
 }
@@ -28436,6 +28477,31 @@ ion-card .main-card {
   color: #fff;
   font-weight: bold;
   word-wrap: break-word;
+}
+
+.add-big {
+  font-family: Roboto-Bold;
+  width: 100%;
+  font-size: 1.25em;
+  color: white;
+  text-align: center;
+  margin-top: 2%;
+}
+
+.add-icon-big {
+  width: 100%;
+  font-size: 4.4em;
+  color: white;
+  text-align: center;
+}
+
+.add-subtitle-big {
+  font-family: Roboto-Light;
+  width: 94%;
+  margin-left: 3%;
+  font-size: 0.9em;
+  color: white;
+  text-align: center;
 }
 
 .info-container {

@@ -1,0 +1,36 @@
+page-add-idea {
+    ion-searchbar{      
+        margin-left: 5vw;  
+        .searchbar-input-container{    
+            background-color: #ffffff;    
+            border-width: 0;    
+            margin-left: -6px;
+            .searchbar-input{
+                border-radius: 0px;
+                text-align: center;
+            }
+        }
+     }
+     .search-box{
+        width: 100vw;
+        background-color: white;
+        .search-result{
+            height: 40px;
+            .text{
+                margin-top: 20px;
+                padding-left: 2vw;
+                font-size: 1em;
+                font-family: Roboto-Bold;
+                color: darkslategrey;
+            }
+        }
+    }
+
+    img{
+        position: relative;
+        transform:translateY(-10%);
+        max-width: 100%;
+        height: auto;
+        opacity: 0.5;
+      }
+}

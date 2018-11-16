@@ -22,6 +22,10 @@ import { ChatPage } from '../pages/chat/chat';
 import { OptionsPage } from '../pages/options/options';
 import { RegisterPage } from '../pages/register/register';
 import { AddinfoPage } from '../pages/addinfo/addinfo';
+import { ProjectsPage } from '../pages/projects/projects';
+import { AddIdeaPage } from '../pages/add-idea/add-idea';
+import { AddProjectPage } from '../pages/add-project/add-project';
+import { AddOrgPage } from '../pages/add-org/add-org';
 
 @NgModule({
   declarations: [
@@ -34,7 +38,11 @@ import { AddinfoPage } from '../pages/addinfo/addinfo';
     ChatPage,
     OptionsPage,
     RegisterPage,
-    AddinfoPage
+    AddinfoPage,
+    ProjectsPage,
+    AddIdeaPage,
+    AddProjectPage,
+    AddOrgPage
   ],
   imports: [
     BrowserModule,
@@ -57,7 +65,11 @@ import { AddinfoPage } from '../pages/addinfo/addinfo';
     ChatPage,
     OptionsPage,
     RegisterPage,
-    AddinfoPage
+    AddinfoPage,
+    ProjectsPage,
+    AddIdeaPage,
+    AddProjectPage,
+    AddOrgPage
   ],
   providers: [
     StatusBar,

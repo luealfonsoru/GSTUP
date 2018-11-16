@@ -26,7 +26,8 @@ export class AddinfoPage {
     studies: '',
     interest: [],
     about:'',
-    money: 0
+    money: 0,
+    type: 'p'
   };
   userId;
   interests;

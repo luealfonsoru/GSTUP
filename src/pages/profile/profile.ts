@@ -7,6 +7,7 @@ import { Observable } from 'rxjs-compat';
 import 'rxjs/add/operator/take';
 import { ChatPage } from '../chat/chat';
 import { OptionsPage } from "../options/options"
+import { ProjectsPage } from '../projects/projects';
 
 
 /**
@@ -86,7 +87,9 @@ export class ProfilePage {
   }
   loading = this.loadingCtrl.create()
 
-
+  gotoProjects(){
+    this.navCtrl.push(ProjectsPage,{pid:this.currentId});
+  }
   ionViewDidLoad() {
     this.loading.present();
     this.currentId = this.navParams.get('pid');
