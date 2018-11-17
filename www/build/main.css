@@ -28041,6 +28041,15 @@ page-add-idea img {
   opacity: 0.5;
 }
 
+page-add-org img {
+  position: relative;
+  -webkit-transform: translateY(-10%);
+  transform: translateY(-10%);
+  max-width: 100%;
+  height: auto;
+  opacity: 0.5;
+}
+
 page-add-project img {
   position: relative;
   -webkit-transform: translateY(-10%);

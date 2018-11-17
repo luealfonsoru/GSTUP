@@ -87,10 +87,10 @@
     <ion-card style="height: 50px; width:80px; background-color: #0c80a0; margin-right: 1px;">
       <div class="card-section">Etapas</div>
     </ion-card> 
-        <ion-card *ngFor="let inter of profile.integrants" style="height: 50px; width:80px; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" (click)="removeInterest2(inter)">
-            <ion-icon name="md-person" class="white-icon"></ion-icon>
+        <ion-card *ngFor="let inter of profile.stages" style="height: 50px; width:80px; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" (click)="removeStage(inter)">
+            <ion-icon name="clock" class="white-icon"></ion-icon>
             <ion-icon name="close-circle" class="close-icon"></ion-icon>
-            <div class="card-subsection">{{inter.username}}</div>
+            <div class="card-subsection">{{inter.title}}</div>
           </ion-card>
 
         <ion-card style="height: 50px; width:50px; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" (click)="adding = !adding; scroll2()">
@@ -100,16 +100,49 @@
 
     </ion-row>
 
-    <ion-row *ngIf="adding === true">
+    <ion-row *ngIf="adding === true" style="margin-top: 10px;">
+        <ion-item style="width: 88vw; margin-left: 10vw">
+            <ion-input type="text" placeholder="Título*" [(ngModel)]="titleTemp" autocomplete="true" spellcheck="true" autocorrect="on" maxlength="40"></ion-input>
+          </ion-item>
       <ion-item style="width: 88vw; margin-left: 10vw; margin-top:20px;height: 120px;">
-        <ion-textarea style="height: 120px" placeholder="Descríbe tu proyecto en menos de 250 caracteres" [(ngModel)]="profile.about" type="text" maxlength="250" autocomplete="true" spellcheck="true" autocorrect="on"></ion-textarea>
+        <ion-textarea style="height: 120px" placeholder="Descríbe la etapa*" [(ngModel)]="descriptionTemp" type="text" maxlength="250" autocomplete="true" spellcheck="true" autocorrect="on"></ion-textarea>
       </ion-item>
+      <button (click)="addStage()" class="bottom-button" ion-button block style="text-transform: none;" [disabled]="titleTemp === '' && descriptionTemp === ''">Agregar Etapa</button>
     </ion-row>
 
+    <ion-row style="padding-bottom: 0px; margin-bottom: -20px;">
+        <ion-card style="height: 50px; width:80px; background-color: #0c80a0; margin-right: 1px;">
+          <div class="card-section">Startup Points</div>
+        </ion-card> 
+            <ion-card *ngFor="let inter of profile.sp" style="height: 50px; width:80px; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" (click)="removeSP(inter)">
+                <ion-icon name="bulb" class="white-icon"></ion-icon>
+                <ion-icon name="close-circle" class="close-icon"></ion-icon>
+                <div class="card-subsection">{{inter.title}}</div>
+              </ion-card>
+    
+            <ion-card style="height: 50px; width:50px; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" (click)="spAdding = !spAdding; scroll2()">
+                <ion-icon name="add-circle" class="white-icon"></ion-icon>
+                <div class="card-subsection">Agregar</div>
+              </ion-card>
+    
+        </ion-row>
+    
+        <ion-row *ngIf="spAdding === true" style="margin-top: 10px;">
+            <ion-item style="width: 88vw; margin-left: 10vw">
+                <ion-input type="text" placeholder="Título*" [(ngModel)]="spTitle" autocomplete="true" spellcheck="true" autocorrect="on" maxlength="40"></ion-input>
+              </ion-item>
+              <ion-item style="width: 88vw; margin-left: 10vw">
+                  <ion-input type="text" placeholder="URL*" [(ngModel)]="spUrl" autocomplete="true" spellcheck="true" autocorrect="on" maxlength="40"></ion-input>
+                </ion-item>
+          <ion-item style="width: 88vw; margin-left: 10vw; margin-top:20px;height: 120px;">
+            <ion-textarea style="height: 120px" placeholder="Descríbe el Startup Point*" [(ngModel)]="spDesc" type="text" maxlength="250" autocomplete="true" spellcheck="true" autocorrect="on"></ion-textarea>
+          </ion-item>
+          <button (click)="addSP()" class="bottom-button" ion-button block style="text-transform: none;" [disabled]="spTitle === '' && spDesc === ''">Agregar Startup Point</button>
+        </ion-row>
 
 
 </ion-content>
 
 <ion-footer>
-<button (click)="createProfile()" class="bottom-button" ion-button block style="text-transform: none;" [disabled]="profile.name === '' || profile.about === '' || profile.perks.length === 0">Crear Idea</button>
+<button (click)="addProject()" class="bottom-button" ion-button block style="text-transform: none;" [disabled]="profile.title === '' || profile.about === '' || profile.perks.length === 0 || profile.sp.length === 0 || profile.stages === 0">Crear Idea</button>
 </ion-footer>

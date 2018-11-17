@@ -4,6 +4,7 @@ import { Observable } from 'rxjs-compat';
 import 'rxjs/add/operator/take';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { ProjectsPage } from '../projects/projects';
 
 /**
  * Generated class for the AddProjectPage page.
@@ -26,7 +27,6 @@ export class AddProjectPage {
     stages: [],
     perks: [],
     integrants: [],
-    awards:[],
     sp: [],
     likes: 0,
     by: ''
@@ -42,6 +42,13 @@ export class AddProjectPage {
   titleTemp = '';
   descriptionTemp = '';
   adding = false;
+  spAdding = false;
+  rwAdding = false;
+
+  spUrl = '';
+  spTitle = '';
+  spDesc = '';
+  chatList;
 
   constructor(private afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -58,6 +65,33 @@ export class AddProjectPage {
       this.maxInterest();
     }
 
+  }
+
+  addSP(){
+    this.profile.sp.push({title:this.spTitle,description:this.spDesc,url:this.spUrl});
+    this.spUrl = '';
+    this.spTitle = '';
+    this.spDesc = '';
+    this.spAdding = false;
+  }
+
+  removeSP(stage){
+    var myIndex;
+    myIndex = this.profile.sp.indexOf(stage);
+    this.profile.sp.splice(myIndex,1);
+  }
+
+  addStage(){
+    this.profile.stages.push({title:this.titleTemp,description:this.descriptionTemp});
+    this.titleTemp = '';
+    this.descriptionTemp = '';
+    this.adding = false;
+  }
+
+  removeStage(stage){
+    var myIndex;
+    myIndex = this.profile.stages.indexOf(stage);
+    this.profile.stages.splice(myIndex,1);
   }
 
   removeInterest(categorie){
@@ -80,12 +114,15 @@ export class AddProjectPage {
   }
 
   removeInterest2(categorie){
-    var myIndex;
-    this.profileList.push(categorie);
-    myIndex = this.profile.integrants.indexOf(categorie);
-    this.profile.integrants.splice(myIndex,1)
-    this.searchInput2 = '';
-    this.searchedData2 = [];
+    console.log(categorie,this.userId,"the psh push")
+    if(categorie.id !== this.profile.by){
+      var myIndex;
+      this.profileList.push(categorie);
+      myIndex = this.profile.integrants.indexOf(categorie);
+      this.profile.integrants.splice(myIndex,1)
+      this.searchInput2 = '';
+      this.searchedData2 = [];
+    }
   }
 
   maxInterest(){
@@ -136,19 +173,43 @@ export class AddProjectPage {
     }
   }
 
+  addProject(){
+      this.afDatabase.object(`/profile/${this.profile.by}/projects/${this.chatList.length}`).set(this.profile).then(()=>{
+          this.navCtrl.setRoot(ProjectsPage);
+      })
+  }
+
+  getChat(){
+    this.afDatabase.list(`profile/${this.userId}/projects`).snapshotChanges().subscribe(res=>{
+      try{
+        this.chatList = res.filter(res => res.key === "messages")[0].payload.val();
+      }catch{
+        this.chatList = [];
+      }
+    })
+  }
+
 
 
   ionViewDidLoad() {
     var profileList = []
+    var pAux;
+    this.getChat();
     this.afAuth.authState.take(1).subscribe(res =>{
       if(res && res.email && res.uid){
+        this.profile.by = res.uid;
+        this.userId = res.uid;
         this.afDatabase.list(`profile`).snapshotChanges().subscribe( datas => {
           datas.forEach(function(value){
             if(value.key != res.uid){
               // @ts-ignore
               profileList.push({id: value.key, username: value.payload.val().username, name: value.payload.val().name});
+            }else{
+              // @ts-ignore
+              pAux = {id: value.key, username: value.payload.val().username, name: value.payload.val().name};
             }            
           })
+          this.profile.integrants.push(pAux);
           this.profileList = profileList;
           this.searchFilter2();
           console.log(this.profileList);

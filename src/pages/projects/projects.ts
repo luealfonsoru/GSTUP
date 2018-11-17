@@ -63,13 +63,14 @@ export class ProjectsPage {
           }catch{
             this.projects = [];
           }
+          console.log(this.projects, "projects")
           try{
             this.ideas = data.filter(res => res.key === "ideas")[0].payload.val();
           }catch{
             this.ideas = [];
           }
           try{
-            this.organizations = data.filter(res => res.key === "organizations")[0].payload.val();
+            this.organizations = data.filter(res => res.key === "orgs")[0].payload.val();
           }catch{
             this.organizations = [];
           }

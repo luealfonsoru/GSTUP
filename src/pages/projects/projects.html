@@ -14,7 +14,7 @@
 
 
 <ion-content class="main-background">
-  <div *ngIf="projects && ideas && organizations && projects.length === 0 && ideas.length !== 0 && organizations.length === 0 && myProfile">
+  <div *ngIf="projects && ideas && organizations && projects.length === 0 && ideas.length === 0 && organizations.length === 0 && myProfile">
     <ion-card style="background-color: #0c80a0; height: 30vh;" (click)="gotoAddIdea()">
       <div class="add-big">Crear Idea</div>
       <ion-icon class="add-icon-big" name="bulb"></ion-icon>
@@ -31,5 +31,18 @@
       <div class="add-subtitle-big">Las organizaciones en Getting Startup son agrupaciones de proyectos. Crea una organización para tu empresa, escuela o grupo; podrás crear convocatorias y concursos*</div>
     </ion-card>
   </div>
+  
+  <ion-row *ngIf="projects && ideas && organizations && (projects.length !== 0 || ideas.length !== 0 || organizations.length !== 0)" style="margin-bottom:-15px;">
+      <ion-card style="height: 9vh; width:38vw; background-color: #0c80a0; margin-right: 1px;">
+        <div class="card-section">Proyectos</div>
+      </ion-card> 
+      <ion-card *ngIf="projects.length === 0" style="height: 9vh; width:38vw; background-color: #0c80a0; margin-right: 1px; margin-top:12px;margin-left:1px">
+        <div class="card-error">No hay reconocimientos para mostrar</div>
+      </ion-card>
+          <ion-card *ngFor="let award of projects" style="height: 9vh; width:9vh; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" >
+              <ion-icon name="ribbon" class="white-icon"></ion-icon>
+              <div class="card-subsection">{{award.title}}</div>
+            </ion-card>
+  </ion-row>
 
 </ion-content>
