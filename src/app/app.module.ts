@@ -26,6 +26,9 @@ import { ProjectsPage } from '../pages/projects/projects';
 import { AddIdeaPage } from '../pages/add-idea/add-idea';
 import { AddProjectPage } from '../pages/add-project/add-project';
 import { AddOrgPage } from '../pages/add-org/add-org';
+import { IdeaPage } from '../pages/idea/idea';
+import { OrgInfoPage } from '../pages/org-info/org-info';
+import { ProjectInfoPage } from '../pages/project-info/project-info';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,10 @@ import { AddOrgPage } from '../pages/add-org/add-org';
     ProjectsPage,
     AddIdeaPage,
     AddProjectPage,
-    AddOrgPage
+    AddOrgPage,
+    IdeaPage,
+    OrgInfoPage,
+    ProjectInfoPage
   ],
   imports: [
     BrowserModule,
@@ -69,7 +75,10 @@ import { AddOrgPage } from '../pages/add-org/add-org';
     ProjectsPage,
     AddIdeaPage,
     AddProjectPage,
-    AddOrgPage
+    AddOrgPage,
+    IdeaPage,
+    OrgInfoPage,
+    ProjectInfoPage
   ],
   providers: [
     StatusBar,

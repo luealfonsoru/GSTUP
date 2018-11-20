@@ -1,0 +1,4 @@
+#Sun Nov 18 23:25:03 COT 2018
+base.0=/home/luis/GSTUP/platforms/android/app/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex

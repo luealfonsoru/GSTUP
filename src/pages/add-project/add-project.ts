@@ -29,7 +29,8 @@ export class AddProjectPage {
     integrants: [],
     sp: [],
     likes: 0,
-    by: ''
+    by: '',
+    id: ''
   };
 
   userId;
@@ -49,6 +50,7 @@ export class AddProjectPage {
   spTitle = '';
   spDesc = '';
   chatList;
+  allProjects;
 
   constructor(private afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase, public alertCtrl: AlertController, public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -174,18 +176,17 @@ export class AddProjectPage {
   }
 
   addProject(){
-      this.afDatabase.object(`/profile/${this.profile.by}/projects/${this.chatList.length}`).set(this.profile).then(()=>{
+    this.profile.id = this.afDatabase.createPushId();
+      this.afDatabase.object(`/profile/${this.userId}/projects/${this.chatList.length}`).set(this.profile).then(()=>{
+        this.afDatabase.object(`/projects/${this.allProjects.length}`).set(this.profile).then(()=>{
           this.navCtrl.setRoot(ProjectsPage);
+        })
       })
   }
 
   getChat(){
     this.afDatabase.list(`profile/${this.userId}/projects`).snapshotChanges().subscribe(res=>{
-      try{
-        this.chatList = res.filter(res => res.key === "messages")[0].payload.val();
-      }catch{
-        this.chatList = [];
-      }
+      this.chatList = res;
     })
   }
 
@@ -194,11 +195,11 @@ export class AddProjectPage {
   ionViewDidLoad() {
     var profileList = []
     var pAux;
-    this.getChat();
     this.afAuth.authState.take(1).subscribe(res =>{
       if(res && res.email && res.uid){
         this.profile.by = res.uid;
         this.userId = res.uid;
+        this.getChat();
         this.afDatabase.list(`profile`).snapshotChanges().subscribe( datas => {
           datas.forEach(function(value){
             if(value.key != res.uid){
@@ -221,6 +222,13 @@ export class AddProjectPage {
           })
           this.interests = interests;
           console.log(this.interests);
+        })
+        this.afDatabase.list(`projects`).snapshotChanges().subscribe(resp =>{
+          var projects =[];
+          resp.forEach(function(result){
+            projects.push(result.payload.val());
+          })
+          this.allProjects = projects;
         })
       }
 

@@ -25,13 +25,16 @@ export class AddOrgPage {
     about: '',
     perks: [],
     likes: 0,
-    by: ''
+    by: '',
+    id: ''
   };
 
   userId;
   interests;
   searchInput = '';
   searchedData;
+  orgs;
+  allOrgs;
 
   constructor(public alertCtrl: AlertController, public afDatabase: AngularFireDatabase, private afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -75,15 +78,11 @@ export class AddOrgPage {
   }
 
   createProfile(){
-    this.afAuth.authState.take(1).subscribe(res =>{
-      var pushId = this.afDatabase.createPushId();
-      this.afDatabase.object(`profile/${res.uid}/orgs/${pushId}`).set(this.profile).then(()=>
-      {
-        this.afDatabase.object(`orgs/${pushId}`).set(this.profile).then(()=>{
-          this.navCtrl.setRoot(ProjectsPage);
-        })
-      }
-    )
+    this.profile.id = this.afDatabase.createPushId();
+    this.afDatabase.object(`/profile/${this.userId}/orgs/${this.orgs.length}`).set(this.profile).then(()=>{
+      this.afDatabase.object(`/orgs/${this.allOrgs.length}`).set(this.profile).then(()=>{
+        this.navCtrl.setRoot(ProjectsPage);
+      })
     })
   }
 
@@ -117,6 +116,20 @@ export class AddOrgPage {
         })
         this.interests = interests;
         console.log(this.interests);
+        this.afDatabase.list(`profile/${this.userId}`).snapshotChanges().subscribe(datas =>{
+          try{
+            this.orgs = datas.filter(res => res.key === "orgs")[0].payload.val();
+          }catch{
+            this.orgs = [];
+          }
+          this.afDatabase.list(`orgs`).snapshotChanges().subscribe(result2 =>{
+            var orgs = []
+            result2.filter(function(res){
+              orgs.push(res.payload.val());
+            })
+            this.allOrgs = orgs;
+          })
+        })
       })
     })
     console.log('ionViewDidLoad AddIdeaPage');

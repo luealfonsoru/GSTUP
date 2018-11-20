@@ -27,13 +27,16 @@ export class AddIdeaPage {
     brainstorm: [],
     perks: [],
     likes: 0,
-    by: ''
+    by: '',
+    id: ''
   };
 
   userId;
   interests;
   searchInput = '';
   searchedData;
+  ideas;
+  allIdeas;
 
   constructor(public alertCtrl: AlertController, public afDatabase: AngularFireDatabase, private afAuth: AngularFireAuth, public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -77,11 +80,11 @@ export class AddIdeaPage {
   }
 
   createProfile(){
+    this.profile.id = this.afDatabase.createPushId();
     this.afAuth.authState.take(1).subscribe(res =>{
-      var pushId = this.afDatabase.createPushId();
-      this.afDatabase.object(`profile/${res.uid}/ideas/${pushId}`).set(this.profile).then(()=>
+      this.afDatabase.object(`profile/${res.uid}/ideas/${this.ideas.length}`).set(this.profile).then(()=>
       {
-        this.afDatabase.object(`ideas/${pushId}`).set(this.profile).then(()=>{
+        this.afDatabase.object(`ideas/${this.allIdeas.length}`).set(this.profile).then(()=>{
           this.navCtrl.setRoot(ProjectsPage);
         })
       }
@@ -119,6 +122,20 @@ export class AddIdeaPage {
         })
         this.interests = interests;
         console.log(this.interests);
+        this.afDatabase.list(`profile/${res.uid}/ideas`).snapshotChanges().subscribe(datas =>{
+          var ideas = [];
+          datas.forEach(function(res){
+            ideas.push(res.payload.val());
+          })
+          this.ideas = ideas;
+          this.afDatabase.list(`ideas`).snapshotChanges().subscribe(respo =>{
+            var ideas = [];
+            respo.forEach(function(res){
+              ideas.push(res.payload.val());
+            })
+            this.allIdeas = ideas;
+          })
+        })
       })
     })
     console.log('ionViewDidLoad AddIdeaPage');

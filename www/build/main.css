@@ -28227,6 +28227,15 @@ page-explore ion-searchbar .searchbar-input-container .searchbar-input {
   color: darkslategrey;
 }
 
+page-idea img {
+  position: relative;
+  -webkit-transform: translateY(-20%);
+  transform: translateY(-20%);
+  max-width: 100%;
+  height: auto;
+  opacity: 0.5;
+}
+
 page-login .text-input {
   text-align: center;
   font-family: Roboto-Light;

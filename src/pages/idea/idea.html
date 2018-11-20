@@ -7,12 +7,61 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>idea</ion-title>
+    <ion-title>Idea</ion-title>
   </ion-navbar>
 
 </ion-header>
 
+<ion-content class="main-background">
+    <ion-row>
+        <ion-card style="height: 25vh; width:100vw;padding: 0px;margin: 0px; background-color: #000000;margin-right:1px">
+            <div class="side-buttons">
+                <div class="side-button">          
+                </div>
+                <div class="side-button" *ngIf="!myProfile">          
+                  </div>
+                <div class="side-button" *ngIf="myProfile" (click)="gotoAddProject()">
+                    <ion-icon class="side-icon" name="cube"></ion-icon>
+                    <div class="side-text">Convertir en Proyecto</div>
+                </div>
+                <div class="side-button" *ngIf="idea" (click)="like()">
+                    <ion-icon class="side-icon" name="heart"></ion-icon>
+                    <div class="side-text">{{idea.likes}}</div>
+                </div>
+              </div>  
+              <img *ngIf="imageUrl" [src]="imageUrl">
+          <div class="card-title" *ngIf="idea">{{idea.title}}</div>
+        </ion-card>
+      </ion-row>    
 
-<ion-content padding>
+      <ion-row>    
+          <ion-card *ngIf="idea" style="background-color: #0c80a0;">
+            <ion-card-content style="padding:3%">
+              <div class="about-title">Acerca esta idea:</div>
+              <div class="about-subtitle">"{{idea.about}}"</div>
+            </ion-card-content>
+          </ion-card>
+        </ion-row>
+        <ion-row *ngIf="idea" style="padding-bottom: 0px; margin-bottom: -20px; margin-top:-20px">
+            <ion-card style="height: 9vh; width:25vw; background-color: #0c80a0; margin-right: 1px;">
+              <div class="card-section">Perks</div>
+            </ion-card> 
+                <ion-card *ngFor="let inter of idea.perks" style="height: 9vh; width:9vh; background-color: #0c80a0;margin-left:1px;margin-right:1px;margin-top:12px" >
+                    <ion-icon [name]="inter.icon" class="white-icon"></ion-icon>
+                    <div class="card-subsection">{{inter.name}}</div>
+                  </ion-card>
+            </ion-row>
+            <ion-row style="margin-top:10px">    
+                <div class="input-container" style="position:relative;">
+                    <div class="chat-input">
+                      <ion-item class="text-input">
+                        <ion-textarea [(ngModel)]="textInput" placeholder="Complementar Idea" autocomplete="true" spellcheck="true" autocorrect="on"></ion-textarea>
+                      </ion-item>
+                      <button class="send-input" ion-button block style="text-transform: none;" (click)="sendText()" [disabled]="textInput == ''">
+                        <ion-icon class="icon" name="arrow-dropright-circle"></ion-icon>
+                      </button>
+                    </div>
+                  </div>
+              </ion-row>
 
 </ion-content>

@@ -7,6 +7,7 @@ import 'rxjs/add/operator/take';
 import { AddIdeaPage } from '../add-idea/add-idea';
 import { AddProjectPage } from '../add-project/add-project';
 import { AddOrgPage } from '../add-org/add-org';
+import { IdeaPage } from '../idea/idea';
 
 /**
  * Generated class for the ProjectsPage page.
@@ -32,7 +33,9 @@ export class ProjectsPage {
   constructor(private afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams) {
   }
 
-
+  gotoIdea(id){
+    this.navCtrl.push(IdeaPage,{pid:this.currentId,iid:id.id})
+  }
   gotoAddIdea(){
     this.navCtrl.push(AddIdeaPage);
   }

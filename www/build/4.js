@@ -5,10 +5,10 @@ webpackJsonp([4],{
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProjectsPageModule", function() { return ProjectsPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OrgInfoPageModule", function() { return OrgInfoPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__projects__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__org_info__ = __webpack_require__(309);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,23 +18,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var ProjectsPageModule = /** @class */ (function () {
-    function ProjectsPageModule() {
+var OrgInfoPageModule = /** @class */ (function () {
+    function OrgInfoPageModule() {
     }
-    ProjectsPageModule = __decorate([
+    OrgInfoPageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__projects__["a" /* ProjectsPage */],
+                __WEBPACK_IMPORTED_MODULE_2__org_info__["a" /* OrgInfoPage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__projects__["a" /* ProjectsPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__org_info__["a" /* OrgInfoPage */]),
             ],
         })
-    ], ProjectsPageModule);
-    return ProjectsPageModule;
+    ], OrgInfoPageModule);
+    return OrgInfoPageModule;
 }());
 
-//# sourceMappingURL=projects.module.js.map
+//# sourceMappingURL=org-info.module.js.map
 
 /***/ })
 
